@@ -20,6 +20,8 @@ import { Textarea } from '../ui/textarea'
 import { useState } from 'react'
 import { isBase64Image } from '@/lib/utils'
 import { useUploadThing } from '@/lib/uploadthing'
+import { updateUser } from '@/lib/actions/user.actions'
+import { usePathname, useRouter } from 'next/navigation'
 
 interface AccountProfileProps {
   user: {
@@ -37,6 +39,9 @@ export default function AccountProfile({
   user,
   btnTitle,
 }: AccountProfileProps) {
+  const router = useRouter()
+  const path = usePathname()
+
   const [files, setFiles] = useState<File[]>([])
   const form = useForm({
     resolver: zodResolver(userValidation),
@@ -75,7 +80,7 @@ export default function AccountProfile({
   }
 
   const onSubmit = async (values: z.infer<typeof userValidation>) => {
-    const { profile_photo } = values
+    const { profile_photo, username, name, bio } = values
 
     const blob = profile_photo
     const hasImageChanged = isBase64Image(blob)
@@ -85,7 +90,20 @@ export default function AccountProfile({
       if (imgRes && imgRes[0].url) values.profile_photo = imgRes[0].url
     }
 
-    //TODO: Call Backend API to update user profile
+    try {
+      await updateUser({
+        userId: user.id,
+        username,
+        name,
+        bio,
+        image: profile_photo,
+        path,
+      })
+      if (path === '/profile/edit') router.back()
+      else router.push('/')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
