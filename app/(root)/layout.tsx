@@ -29,6 +29,9 @@ export default function RootLayout({
       }}
     >
       <html lang='en'>
+        <head>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        </head>
         <body className={inter.className}>
           <Topbar />
 

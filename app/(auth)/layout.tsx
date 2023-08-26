@@ -25,6 +25,9 @@ export default function RootLayout({
       }}
     >
       <html lang='en'>
+        <head>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        </head>
         <body className={`${inter.className} bg-dark-1 `}>
           <div className='w-full h-full min-h-screen flex items-center justify-center'>
             {children}
