@@ -31,10 +31,28 @@ export default async function page({ params }: { params: { id: string } }) {
 
       <div className='mt-7'>
         <Comment
-          threadId={post._id}
+          threadId={params.id}
           currentUserImage={clerkUser.imageUrl}
           currentUserId={JSON.stringify(userInfo._id)}
         />
+      </div>
+
+      <div className='mt-10'>
+        {post.children.map((comment: any) => {
+          return (
+            <ThreadCard
+              key={comment._id}
+              id={comment._id}
+              currentUserId={comment?.id || ''}
+              content={comment.text}
+              comments={comment.children}
+              author={comment.author}
+              parentId={comment.parentId}
+              createdAt={comment.createdAt}
+              isComment
+            />
+          )
+        })}
       </div>
     </section>
   )

@@ -115,9 +115,47 @@ export async function fetchPostById(id: string) {
         ],
       })
       .exec()
-
+    console.log(post)
     return post
   } catch (error: any) {
     console.error('Failed to fetch post', error.message)
+  }
+}
+
+interface AddCommentParams {
+  threadId: string
+  commentText: string
+  userId: string
+  path: string
+}
+
+export async function addComment({
+  threadId,
+  commentText,
+  userId,
+  path,
+}: AddCommentParams) {
+  try {
+    await connectToDatabase()
+
+    const ogThread = await Post.findById(threadId)
+
+    if (!ogThread) throw new Error('Thread not found')
+
+    const newComment = await Post.create({
+      text: commentText,
+      author: userId,
+      parentId: threadId,
+    })
+
+    const savedComment = await newComment.save()
+
+    ogThread.children.push(savedComment._id)
+
+    await ogThread.save()
+
+    revalidatePath(path)
+  } catch (error: any) {
+    console.error('Failed to add comment', error.message)
   }
 }

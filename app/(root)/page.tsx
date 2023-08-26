@@ -7,8 +7,6 @@ export default async function Home() {
   const result = await fetchPosts()
   if (!result) return null
 
-  console.log(result.posts)
-
   return (
     <>
       <h1 className='head-text'>Home</h1>
