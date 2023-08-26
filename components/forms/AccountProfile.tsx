@@ -92,7 +92,6 @@ export default function AccountProfile({
 
     try {
       await updateUser({
-        userId: user.id,
         username,
         name,
         bio,
@@ -136,6 +135,7 @@ export default function AccountProfile({
                   onChange={e => handleImage(e, field.onChange)}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -154,6 +154,7 @@ export default function AccountProfile({
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -172,6 +173,7 @@ export default function AccountProfile({
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -190,6 +192,7 @@ export default function AccountProfile({
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

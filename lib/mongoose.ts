@@ -4,6 +4,7 @@ let isConnected = false
 
 export const connectToDatabase = async () => {
   mongoose.set('strictQuery', true)
+  mongoose.set('strictPopulate', false)
 
   if (!process.env.MONGO_URL) throw new Error('Missing MONGO_URL env variable')
 
