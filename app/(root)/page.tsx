@@ -1,27 +1,27 @@
-import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import { currentUser } from '@clerk/nextjs'
+import { redirect } from 'next/navigation'
 
-import ThreadCard from "@/components/cards/ThreadCard";
-import Pagination from "@/components/shared/Pagination";
+import ThreadCard from '@/components/cards/ThreadCard'
+import Pagination from '@/components/shared/Pagination'
 
-import { fetchPosts } from "@/lib/actions/thread.actions";
-import { fetchUser } from "@/lib/actions/user.actions";
+import { fetchPosts } from '@/lib/actions/thread.actions'
+import { fetchUser } from '@/lib/actions/user.actions'
 
 async function Home({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | undefined };
+  searchParams: { [key: string]: string | undefined }
 }) {
-  const user = await currentUser();
-  if (!user) return null;
+  const user = await currentUser()
+  if (!user) redirect('/landing')
 
-  const userInfo = await fetchUser(user.id);
-  if (!userInfo?.onboarded) redirect("/onboarding");
+  const userInfo = await fetchUser(user.id)
+  if (!userInfo?.onboarded) redirect('/onboarding')
 
   const result = await fetchPosts(
     searchParams.page ? +searchParams.page : 1,
     30
-  );
+  )
 
   return (
     <>
@@ -32,7 +32,7 @@ async function Home({
           <p className='no-result'>No threads found</p>
         ) : (
           <>
-            {result.posts.map((post) => (
+            {result.posts.map(post => (
               <ThreadCard
                 key={post._id}
                 id={post._id}
@@ -55,7 +55,7 @@ async function Home({
         isNext={result.isNext}
       />
     </>
-  );
+  )
 }
 
-export default Home;
+export default Home

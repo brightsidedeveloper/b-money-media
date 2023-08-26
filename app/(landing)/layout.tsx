@@ -9,7 +9,7 @@ import '../globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'X2 | Auth',
+  title: 'X2 | Landing',
   description: 'A Next.js 13 Practice Project',
 }
 
@@ -25,11 +25,7 @@ export default function RootLayout({
       }}
     >
       <html lang='en'>
-        <body className={`${inter.className} bg-dark-1 `}>
-          <div className='w-full h-full min-h-screen flex items-center justify-center'>
-            {children}
-          </div>
-        </body>
+        <body className={`${inter.className} bg-dark-1 `}>{children}</body>
       </html>
     </ClerkProvider>
   )
