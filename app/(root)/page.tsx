@@ -32,19 +32,25 @@ async function Home({
           <p className='no-result'>No threads found</p>
         ) : (
           <>
-            {result.posts.map(post => (
-              <ThreadCard
-                key={post._id}
-                id={post._id}
-                currentUserId={user.id}
-                parentId={post.parentId}
-                content={post.text}
-                author={post.author}
-                community={post.community}
-                createdAt={post.createdAt}
-                comments={post.children}
-              />
-            ))}
+            {result.posts.map(post => 
+              {
+                return (
+                  <ThreadCard
+                    key={post._id}
+                    id={post._id}
+                    uid={userInfo._id}
+                    currentUserId={user.id}
+                    parentId={post.parentId}
+                    content={post.text}
+                    author={post.author}
+                    community={post.community}
+                    createdAt={post.createdAt}
+                    comments={post.children}
+                    liked={post.likes?.includes(userInfo._id)}
+                    likes={post.likes?.length}
+                  />
+                )
+              })}
           </>
         )}
       </section>

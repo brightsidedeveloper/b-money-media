@@ -20,11 +20,13 @@ async function page({ params }: { params: { id: string } }) {
 
   const thread = await fetchThreadById(params.id);
 
+  console.log(thread?.likes?.includes(userInfo._id), 'likes')
   return (
     <section className='relative'>
       <div>
         <ThreadCard
           id={thread._id}
+          uid={userInfo._id}
           currentUserId={user.id}
           parentId={thread.parentId}
           content={thread.text}
@@ -32,6 +34,8 @@ async function page({ params }: { params: { id: string } }) {
           community={thread.community}
           createdAt={thread.createdAt}
           comments={thread.children}
+          liked={thread?.likes?.includes(userInfo._id)}
+          likes={thread.likes.length}
         />
       </div>
 
@@ -48,6 +52,7 @@ async function page({ params }: { params: { id: string } }) {
           <ThreadCard
             key={childItem._id}
             id={childItem._id}
+            uid={userInfo._id}
             currentUserId={user.id}
             parentId={childItem.parentId}
             content={childItem.text}
@@ -55,6 +60,8 @@ async function page({ params }: { params: { id: string } }) {
             community={childItem.community}
             createdAt={childItem.createdAt}
             comments={childItem.children}
+            liked={childItem?.likes?.includes(userInfo._id)}
+            likes={thread.likes.length}
             isComment
           />
         ))}
