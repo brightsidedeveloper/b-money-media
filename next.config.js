@@ -1,15 +1,8 @@
-const withPWA = require("next-pwa")
-
 /** @type {import('next').NextConfig} */
-const nextConfig = withPWA({
+const nextConfig = {
   experimental: {
     serverActions: true,
     serverComponentsExternalPackages: ["mongoose"],
-  },
-  pwa: {
-    dest: "public",
-    register: true,
-    skipWaiting: true,
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
@@ -36,6 +29,6 @@ const nextConfig = withPWA({
       },
     ],
   },
-})
+}
 
 module.exports = nextConfig
