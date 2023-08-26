@@ -10,7 +10,7 @@ function Bottombar() {
   const pathname = usePathname();
 
   return (
-    <section className='bottombar'>
+    <section className='bottombar pb-12'>
       <div className='bottombar_container'>
         {sidebarLinks.map((link) => {
           const isActive =
@@ -26,8 +26,8 @@ function Bottombar() {
               <Image
                 src={link.imgURL}
                 alt={link.label}
-                width={16}
-                height={16}
+                width={24}
+                height={24}
                 className='object-contain'
               />
 
