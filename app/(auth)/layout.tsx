@@ -26,6 +26,7 @@ export default function RootLayout({
     >
       <html lang='en'>
         <head>
+<link rel="manifest" href="/mainfest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         </head>
         <body className={`${inter.className} bg-dark-1 `}>
