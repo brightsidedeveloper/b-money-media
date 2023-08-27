@@ -17,7 +17,7 @@ manifest: "/manifest.json",
     capable: true,
     statusBarStyle: "default",
     title: 'X2',
-    startupImage: '/X2.png',
+    startupImage: ['/X2.png'],
   },
   viewport: 'width=device-width, height=device-height, initial-scale:1, user-scalable=no',
 }

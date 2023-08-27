@@ -35,4 +35,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withPWA(nextConfig)
+module.exports = process.env.DEV ? nextConfig : withPWA(nextConfig)
