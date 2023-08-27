@@ -11,6 +11,6 @@ useEffect(() => {
         return () => clearInterval(i)
 }, [])    
   return (
-    <button onClick={() => window.location.reload()} className={`bg-primary-500 rounded-full px-3 py-0.5 text-small-regular text-white ${customStyles ? customStyles : ''}`}>Refresh</button>
+    <button onClick={() => window.location.reload()} className={`bg-primary-500 hover:bg-[#d5485d] rounded-full px-3 py-0.5 text-small-regular text-white ${customStyles ? customStyles : ''}`}>Refresh</button>
   )
 }
