@@ -1,3 +1,5 @@
+
+
 import { currentUser } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
 
@@ -7,6 +9,7 @@ import Pagination from '@/components/shared/Pagination'
 import { fetchPosts } from '@/lib/actions/thread.actions'
 import { fetchUser } from '@/lib/actions/user.actions'
 import Refresher from '@/components/shared/Refresher'
+import { revalidatePath } from 'next/cache'
 
 async function Home({
   searchParams,
@@ -26,7 +29,7 @@ async function Home({
 
   return (
     <>
-      <div className='flex justify-between'><h1 className='head-text text-left'>Home</h1><Refresher path='/'/></div>
+      <div className='flex justify-between'><h1 className='head-text text-left'>Home</h1><Refresher/></div>
       
       <section className='mt-9 flex flex-col gap-10'>
         {result.posts.length === 0 ? (

@@ -3,9 +3,6 @@
 import { useRouter } from "next/navigation";
 
 import { Button } from "../ui/button";
-import { useEffect } from "react";
-import useRevalidator from "@/hooks/useRevalidator";
-import useHydrated from "@/hooks/useHydrated";
 
 interface Props {
   pageNumber: number;
