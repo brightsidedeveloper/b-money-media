@@ -61,7 +61,7 @@ async function page({ params }: { params: { id: string } }) {
             createdAt={childItem.createdAt}
             comments={childItem.children}
             liked={childItem?.likes?.includes(userInfo._id)}
-            likes={thread.likes.length}
+            likes={childItem.likes?.length}
             isComment
           />
         ))}
