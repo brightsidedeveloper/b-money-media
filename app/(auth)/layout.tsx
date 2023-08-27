@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'X2 | Auth',
   description: 'A Next.js 13 Practice Project',
-manifest: "/manifest.json",
+  manifest: "/manifest.json",
   themeColor: "#121417",
   appleWebApp: {
     capable: true,
