@@ -18,9 +18,12 @@ async function page({ params }: { params: { id: string } }) {
   const userInfo = await fetchUser(user.id);
   if (!userInfo?.onboarded) redirect("/onboarding");
 
-  const thread = await fetchThreadById(params.id);
+  let thread = await fetchThreadById(params.id);
 
-  console.log(thread?.likes?.includes(userInfo._id), 'likes')
+  setInterval(async () => {
+    thread = await fetchThreadById(params.id);
+  }, 60_000);
+
   return (
     <section className='relative'>
       <div>
