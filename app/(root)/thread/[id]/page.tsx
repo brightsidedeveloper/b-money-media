@@ -6,6 +6,7 @@ import ThreadCard from "@/components/cards/ThreadCard";
 
 import { fetchUser } from "@/lib/actions/user.actions";
 import { fetchThreadById } from "@/lib/actions/thread.actions";
+import { revalidatePath } from "next/cache";
 
 export const revalidate = 0;
 
@@ -18,11 +19,12 @@ async function page({ params }: { params: { id: string } }) {
   const userInfo = await fetchUser(user.id);
   if (!userInfo?.onboarded) redirect("/onboarding");
 
-  let thread = await fetchThreadById(params.id);
+  const thread = await fetchThreadById(params.id);
 
   setInterval(async () => {
-    thread = await fetchThreadById(params.id);
-  }, 60_000);
+    revalidatePath('/thread/' + params.id)
+  }, 1000 * 60)
+ 
 
   return (
     <section className='relative'>
