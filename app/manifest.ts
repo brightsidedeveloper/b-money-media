@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'X2 | Better than Meta',
     short_name: 'X2',
-    description: 'Next.js App',
+    description: 'Next13 Practice App',
     start_url: '/',
     display: 'standalone',
     background_color: '#121417',
