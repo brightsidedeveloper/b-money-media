@@ -11,6 +11,14 @@ function Bottombar() {
 
   return (
     <section className='bottombar pb-12'>
+      <Link href='/create-thread' className='absolute p-5 top-[-5rem] bg-primary-500 right-2 rounded-full'>
+        <Image
+        src='/assets/create.svg'
+        alt='create'
+        width={24}
+        height={24}
+        />
+      </Link>
       <div className='bottombar_container'>
         {sidebarLinks.map((link) => {
           const isActive =

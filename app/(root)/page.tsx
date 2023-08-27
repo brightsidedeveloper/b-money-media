@@ -18,7 +18,7 @@ async function Home({
   const userInfo = await fetchUser(user.id)
   if (!userInfo?.onboarded) redirect('/onboarding')
 
-  const result = await fetchPosts(
+  let result = await fetchPosts(
     searchParams.page ? +searchParams.page : 1,
     30
   )
