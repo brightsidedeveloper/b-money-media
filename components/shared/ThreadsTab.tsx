@@ -68,11 +68,12 @@ async function ThreadsTab({ currentUserId, accountId, uid, accountType }: Props)
           content={thread.text}
           author={
             accountType === "User"
-              ? { name: result.name, image: result.image, id: result.id }
+              ? { name: result.name, image: result.image, id: result.id, username: result.username }
               : {
                   name: thread.author.name,
                   image: thread.author.image,
                   id: thread.author.id,
+                  username: thread.author.username,
                 }
           }
           community={
