@@ -16,8 +16,6 @@ interface Props {
 function Pagination({ pageNumber, isNext, path }: Props) {
   const router = useRouter();
 
-  useRevalidator(path);
-
   const handleNavigation = (type: string) => {
     let nextPageNumber = pageNumber;
 

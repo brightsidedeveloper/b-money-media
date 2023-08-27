@@ -6,6 +6,7 @@ import Pagination from '@/components/shared/Pagination'
 
 import { fetchPosts } from '@/lib/actions/thread.actions'
 import { fetchUser } from '@/lib/actions/user.actions'
+import Refresher from '@/components/shared/Refresher'
 
 async function Home({
   searchParams,
@@ -25,7 +26,8 @@ async function Home({
 
   return (
     <>
-      <h1 className='head-text text-left'>Home</h1>
+      <div className='flex justify-between'><h1 className='head-text text-left'>Home</h1><Refresher path='/'/></div>
+      
       <section className='mt-9 flex flex-col gap-10'>
         {result.posts.length === 0 ? (
           <p className='no-result'>No threads found</p>

@@ -1,6 +1,6 @@
 import { revalidate } from '@/lib/actions/reavalidations.actions'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
 export default function useRevalidator(path: string) {
     const router = useRouter()
@@ -10,4 +10,11 @@ export default function useRevalidator(path: string) {
           router.refresh()
         }, 1000 * 60)
       }, [])
+
+      const revalidator = useCallback(async () => {
+        await revalidate(path)
+        router.refresh()
+      }, [])
+
+        return revalidator
 }
