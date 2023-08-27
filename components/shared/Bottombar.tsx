@@ -21,6 +21,7 @@ function Bottombar() {
       </Link>
       <div className='bottombar_container'>
         {sidebarLinks.map((link) => {
+          if (link.route === "/create-thread") return null;
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||
             pathname === link.route;
