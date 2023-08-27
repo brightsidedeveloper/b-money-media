@@ -6,7 +6,6 @@ import Pagination from '@/components/shared/Pagination'
 
 import { fetchPosts } from '@/lib/actions/thread.actions'
 import { fetchUser } from '@/lib/actions/user.actions'
-import { revalidateHome } from '@/lib/actions/reavlidations.actions'
 
 async function Home({
   searchParams,
