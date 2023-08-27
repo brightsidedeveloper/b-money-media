@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: 'X2 | Better than Meta',
   description: 'A Next.js 13 Practice Project',
 manifest: "/manifest.json",
-  themeColor: "#FFFFFF",
+  themeColor: "#121417",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
