@@ -7,6 +7,7 @@ import ThreadCard from "../cards/ThreadCard";
 
 interface Result {
   name: string;
+  username: string;
   image: string;
   id: string;
   threads: {
