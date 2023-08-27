@@ -51,7 +51,7 @@ function Comment({ threadId, currentUserImg, currentUserId }: Props) {
     form.reset();
   };
 
-  if (useHydrated()) return (
+   return (
     <Form {...form}>
       <form className='comment-form' onSubmit={form.handleSubmit(onSubmit)}>
         <FormField

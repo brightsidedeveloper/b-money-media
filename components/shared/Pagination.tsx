@@ -36,7 +36,7 @@ function Pagination({ pageNumber, isNext, path }: Props) {
 
   if (!isNext && pageNumber === 1) return null;
 
-  if (useHydrated()) return (
+   return (
     <div className='pagination'>
       <Button
         onClick={() => handleNavigation("prev")}
