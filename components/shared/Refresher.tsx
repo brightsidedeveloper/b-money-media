@@ -3,8 +3,9 @@
 import { useEffect } from "react"
 
 
-export default function Refresher({customStyles}: {customStyles?: string}) {
+export default function Refresher({customStyles, noAuto}: {customStyles?: string, noAuto?: boolean}) {
 useEffect(() => {
+  if (noAuto) return
     const i = setInterval(() => {
             window.location.reload()
         }, 1000 * 60)
