@@ -25,7 +25,7 @@ async function page({ params }: { params: { id: string } }) {
 
   return (
     <section className='relative'>
-      <Refresher customStyles='w-full py-4 mb-3 -mt-20 rounded-xl' />
+      <Refresher customStyles='w-full py-4 mb-3 -mt-20 rounded-xl' noAuto />
       <div>
         <ThreadCard
           id={thread._id}
