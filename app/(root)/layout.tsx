@@ -15,6 +15,14 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'X2 | Better than Meta',
   description: 'A Next.js 13 Practice Project',
+manifest: "/manifest.json",
+  themeColor: "#FFFFFF",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: 'X2',
+    // startUpImage: [],
+  },
 }
 
 export default function RootLayout({
