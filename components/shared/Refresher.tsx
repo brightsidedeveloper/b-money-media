@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 
 
-export default function Refresher() {
+export default function Refresher({customStyles}: {customStyles?: string}) {
 useEffect(() => {
     const i = setInterval(() => {
             window.location.reload()
@@ -11,6 +11,6 @@ useEffect(() => {
         return () => clearInterval(i)
 }, [])    
   return (
-    <button onClick={() => window.location.reload()} className='bg-primary-500 rounded-full px-3 py-0.5 text-small-regular text-white'>Refresh</button>
+    <button onClick={() => window.location.reload()} className={`bg-primary-500 rounded-full px-3 py-0.5 text-small-regular text-white ${customStyles ? customStyles : ''}`}>Refresh</button>
   )
 }

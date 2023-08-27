@@ -7,6 +7,7 @@ import ThreadCard from "@/components/cards/ThreadCard";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { fetchThreadById } from "@/lib/actions/thread.actions";
 import { revalidatePath } from "next/cache";
+import Refresher from "@/components/shared/Refresher";
 
 export const revalidate = 0;
 
@@ -24,6 +25,7 @@ async function page({ params }: { params: { id: string } }) {
 
   return (
     <section className='relative'>
+      <Refresher customStyles='w-full py-4 mb-3 -mt-20 rounded-xl' />
       <div>
         <ThreadCard
           id={thread._id}
