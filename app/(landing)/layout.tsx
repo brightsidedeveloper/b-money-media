@@ -19,6 +19,7 @@ manifest: "/manifest.json",
     title: 'X2',
     startupImage: '/X2.png',
   },
+  viewport: 'width=device-width, height=device-height, initial-scale:1, user-scalable=no',
 }
 
 export default function RootLayout({

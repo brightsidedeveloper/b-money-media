@@ -61,7 +61,7 @@ function Comment({ threadId, currentUserImg, currentUserId }: Props) {
                   alt='current_user'
                   width={48}
                   height={48}
-                  className='rounded-full object-cover'
+                  className='rounded-full cover object-cover'
                 />
               </FormLabel>
               <FormControl className='border-none bg-transparent'>
