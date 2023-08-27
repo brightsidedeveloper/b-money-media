@@ -21,7 +21,7 @@ manifest: "/manifest.json",
     capable: true,
     statusBarStyle: "default",
     title: 'X2',
-    // startUpImage: [],
+    startupImage: '/X2.png',
   },
 }
 
