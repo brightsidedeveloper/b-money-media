@@ -20,10 +20,6 @@ async function page({ params }: { params: { id: string } }) {
   if (!userInfo?.onboarded) redirect("/onboarding");
 
   const thread = await fetchThreadById(params.id);
-
-  setInterval(async () => {
-    revalidatePath('/thread/' + params.id)
-  }, 1000 * 60)
  
 
   return (

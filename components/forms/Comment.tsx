@@ -19,6 +19,8 @@ import { Button } from "../ui/button";
 
 import { CommentValidation } from "@/lib/validations/thread";
 import { addCommentToThread } from "@/lib/actions/thread.actions";
+import useRevalidator from "@/hooks/useRevalidator";
+import useHydrated from "@/hooks/useHydrated";
 
 interface Props {
   threadId: string;
@@ -28,6 +30,8 @@ interface Props {
 
 function Comment({ threadId, currentUserImg, currentUserId }: Props) {
   const pathname = usePathname();
+
+  useRevalidator(pathname);
 
   const form = useForm<z.infer<typeof CommentValidation>>({
     resolver: zodResolver(CommentValidation),
@@ -47,7 +51,7 @@ function Comment({ threadId, currentUserImg, currentUserId }: Props) {
     form.reset();
   };
 
-  return (
+  if (useHydrated()) return (
     <Form {...form}>
       <form className='comment-form' onSubmit={form.handleSubmit(onSubmit)}>
         <FormField

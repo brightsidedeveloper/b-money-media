@@ -6,7 +6,7 @@ import Pagination from '@/components/shared/Pagination'
 
 import { fetchPosts } from '@/lib/actions/thread.actions'
 import { fetchUser } from '@/lib/actions/user.actions'
-import { revalidatePath } from 'next/cache'
+import { revalidateHome } from '@/lib/actions/reavlidations.actions'
 
 async function Home({
   searchParams,
@@ -24,9 +24,7 @@ async function Home({
     30
   )
 
-  setInterval(async () => {
-    revalidatePath('/')
-  }, 1000 * 60)
+  
 
   return (
     <>

@@ -3,6 +3,9 @@
 import { useRouter } from "next/navigation";
 
 import { Button } from "../ui/button";
+import { useEffect } from "react";
+import useRevalidator from "@/hooks/useRevalidator";
+import useHydrated from "@/hooks/useHydrated";
 
 interface Props {
   pageNumber: number;
@@ -12,6 +15,8 @@ interface Props {
 
 function Pagination({ pageNumber, isNext, path }: Props) {
   const router = useRouter();
+
+  useRevalidator(path);
 
   const handleNavigation = (type: string) => {
     let nextPageNumber = pageNumber;
@@ -31,7 +36,7 @@ function Pagination({ pageNumber, isNext, path }: Props) {
 
   if (!isNext && pageNumber === 1) return null;
 
-  return (
+  if (useHydrated()) return (
     <div className='pagination'>
       <Button
         onClick={() => handleNavigation("prev")}
