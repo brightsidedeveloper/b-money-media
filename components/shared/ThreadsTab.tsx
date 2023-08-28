@@ -7,6 +7,7 @@ import ThreadCard from "../cards/ThreadCard";
 
 interface Result {
   name: string;
+  username: string;
   image: string;
   id: string;
   threads: {
@@ -15,6 +16,7 @@ interface Result {
     parentId: string | null;
     author: {
       name: string;
+      username: string;
       image: string;
       id: string;
     };
@@ -28,7 +30,10 @@ interface Result {
       author: {
         image: string;
       };
+      
     }[];
+    likes: string[];
+      liked: boolean;
   }[];
 }
 
@@ -36,9 +41,10 @@ interface Props {
   currentUserId: string;
   accountId: string;
   accountType: string;
+  uid: string
 }
 
-async function ThreadsTab({ currentUserId, accountId, accountType }: Props) {
+async function ThreadsTab({ currentUserId, accountId, uid, accountType }: Props) {
   let result: Result;
 
   if (accountType === "Community") {
@@ -57,16 +63,18 @@ async function ThreadsTab({ currentUserId, accountId, accountType }: Props) {
         <ThreadCard
           key={thread._id}
           id={thread._id}
+          uid={uid}
           currentUserId={currentUserId}
           parentId={thread.parentId}
           content={thread.text}
           author={
             accountType === "User"
-              ? { name: result.name, image: result.image, id: result.id }
+              ? { name: result.name, image: result.image, id: result.id, username: result.username }
               : {
                   name: thread.author.name,
                   image: thread.author.image,
                   id: thread.author.id,
+                  username: thread.author.username,
                 }
           }
           community={
@@ -76,6 +84,8 @@ async function ThreadsTab({ currentUserId, accountId, accountType }: Props) {
           }
           createdAt={thread.createdAt}
           comments={thread.children}
+          liked={thread.likes?.includes(uid)}
+                    likes={thread.likes?.length}
         />
       ))}
     </section>

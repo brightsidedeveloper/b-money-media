@@ -3,14 +3,17 @@ import Link from "next/link";
 
 import { formatDateString } from "@/lib/utils";
 import DeleteThread from "../forms/DeleteThread";
+import LikePost from "../forms/LikePost";
 
 interface Props {
   id: string;
+  uid: string;
   currentUserId: string;
   parentId: string | null;
   content: string;
   author: {
     name: string;
+    username: string;
     image: string;
     id: string;
   };
@@ -26,10 +29,13 @@ interface Props {
     };
   }[];
   isComment?: boolean;
+  liked: boolean;
+  likes: number
 }
 
 function ThreadCard({
   id,
+  uid,
   currentUserId,
   parentId,
   content,
@@ -38,6 +44,8 @@ function ThreadCard({
   createdAt,
   comments,
   isComment,
+  likes,
+  liked
 }: Props) {
   return (
     <article
@@ -62,22 +70,19 @@ function ThreadCard({
 
           <div className='flex w-full flex-col'>
             <Link href={`/profile/${author.id}`} className='w-fit'>
+              <div className='flex flex-col'>
               <h4 className='cursor-pointer text-base-semibold text-light-1'>
                 {author.name}
               </h4>
+              <p className="cursor-pointer text-small-regular text-light-1/50">@{author.username}</p>
+              </div>
             </Link>
 
             <p className='mt-2 text-small-regular text-light-2'>{content}</p>
 
             <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
               <div className='flex gap-3.5'>
-                <Image
-                  src='/assets/heart-gray.svg'
-                  alt='heart'
-                  width={24}
-                  height={24}
-                  className='cursor-pointer object-contain'
-                />
+                <LikePost threadId={JSON.stringify(id)} userId={JSON.stringify(uid)} liked={liked} count={likes}/>
                 <Link href={`/thread/${id}`}>
                   <Image
                     src='/assets/reply.svg'
@@ -86,8 +91,9 @@ function ThreadCard({
                     height={24}
                     className='cursor-pointer object-contain'
                   />
+                  <p className="text-subtle-semibold text-center mx-auto text-gray-1">{comments?.length || 0}</p>
                 </Link>
-                <Image
+                {/* <Image
                   src='/assets/repost.svg'
                   alt='heart'
                   width={24}
@@ -100,7 +106,7 @@ function ThreadCard({
                   width={24}
                   height={24}
                   className='cursor-pointer object-contain'
-                />
+                /> */}
               </div>
 
               {isComment && comments.length > 0 && (

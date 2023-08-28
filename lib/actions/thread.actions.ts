@@ -32,7 +32,7 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
       populate: {
         path: "author", // Populate the author field within children
         model: User,
-        select: "_id name parentId image", // Select only _id and username fields of the author
+        select: "_id name username parentId image", // Select only _id and username fields of the author
       },
     });
 
@@ -165,7 +165,7 @@ export async function fetchThreadById(threadId: string) {
       .populate({
         path: "author",
         model: User,
-        select: "_id id name image",
+        select: "_id id username name image",
       }) // Populate the author field with _id and username
       .populate({
         path: "community",
@@ -178,7 +178,7 @@ export async function fetchThreadById(threadId: string) {
           {
             path: "author", // Populate the author field within children
             model: User,
-            select: "_id id name parentId image", // Select only _id and username fields of the author
+            select: "_id id name username parentId image", // Select only _id and username fields of the author
           },
           {
             path: "children", // Populate the children field within children
@@ -186,7 +186,7 @@ export async function fetchThreadById(threadId: string) {
             populate: {
               path: "author", // Populate the author field within nested children
               model: User,
-              select: "_id id name parentId image", // Select only _id and username fields of the author
+              select: "_id id name username parentId image", // Select only _id and username fields of the author
             },
           },
         ],
@@ -236,5 +236,24 @@ export async function addCommentToThread(
   } catch (err) {
     console.error("Error while adding comment:", err);
     throw new Error("Unable to add comment");
+  }
+}
+
+export async function likePost(threadId: string, userId: string, path: string) {
+  connectToDB();
+
+  try {
+    // Find the original thread by its ID
+
+    //Add like to the original thread
+    const originalThread = await Thread.findByIdAndUpdate(threadId, {
+      $push: { likes: userId },
+    });
+
+
+    revalidatePath(path);
+  } catch (err) {
+    console.error("Error while liking post:", err);
+    throw new Error("Unable to like post");
   }
 }

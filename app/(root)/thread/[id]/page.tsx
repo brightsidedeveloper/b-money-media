@@ -6,6 +6,8 @@ import ThreadCard from "@/components/cards/ThreadCard";
 
 import { fetchUser } from "@/lib/actions/user.actions";
 import { fetchThreadById } from "@/lib/actions/thread.actions";
+import { revalidatePath } from "next/cache";
+import Refresher from "@/components/shared/Refresher";
 
 export const revalidate = 0;
 
@@ -19,12 +21,15 @@ async function page({ params }: { params: { id: string } }) {
   if (!userInfo?.onboarded) redirect("/onboarding");
 
   const thread = await fetchThreadById(params.id);
+ 
 
   return (
     <section className='relative'>
+      <Refresher customStyles='w-full py-4 mb-3 -mt-20 rounded-xl' noAuto />
       <div>
         <ThreadCard
           id={thread._id}
+          uid={userInfo._id}
           currentUserId={user.id}
           parentId={thread.parentId}
           content={thread.text}
@@ -32,13 +37,15 @@ async function page({ params }: { params: { id: string } }) {
           community={thread.community}
           createdAt={thread.createdAt}
           comments={thread.children}
+          liked={thread?.likes?.includes(userInfo._id)}
+          likes={thread.likes.length}
         />
       </div>
 
       <div className='mt-7'>
         <Comment
           threadId={params.id}
-          currentUserImg={user.imageUrl}
+          currentUserImg={userInfo.image}
           currentUserId={JSON.stringify(userInfo._id)}
         />
       </div>
@@ -48,6 +55,7 @@ async function page({ params }: { params: { id: string } }) {
           <ThreadCard
             key={childItem._id}
             id={childItem._id}
+            uid={userInfo._id}
             currentUserId={user.id}
             parentId={childItem.parentId}
             content={childItem.text}
@@ -55,6 +63,8 @@ async function page({ params }: { params: { id: string } }) {
             community={childItem.community}
             createdAt={childItem.createdAt}
             comments={childItem.children}
+            liked={childItem?.likes?.includes(userInfo._id)}
+            likes={childItem.likes?.length}
             isComment
           />
         ))}

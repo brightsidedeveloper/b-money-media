@@ -10,9 +10,18 @@ function Bottombar() {
   const pathname = usePathname();
 
   return (
-    <section className='bottombar'>
+    <section className='bottombar pb-12'>
+      <Link href='/create-thread' className='absolute p-5 top-[-5rem] bg-primary-500 right-2 rounded-full'>
+        <Image
+        src='/assets/create.svg'
+        alt='create'
+        width={24}
+        height={24}
+        />
+      </Link>
       <div className='bottombar_container'>
         {sidebarLinks.map((link) => {
+          if (link.route === "/create-thread") return null;
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||
             pathname === link.route;
@@ -26,8 +35,8 @@ function Bottombar() {
               <Image
                 src={link.imgURL}
                 alt={link.label}
-                width={16}
-                height={16}
+                width={24}
+                height={24}
                 className='object-contain'
               />
 

@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
+import { number } from "zod"
 
 const threadSchema = new mongoose.Schema({
   text: {
@@ -14,6 +15,11 @@ const threadSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Community",
   },
+  likes: [
+    {
+      type: String,
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
@@ -27,8 +33,8 @@ const threadSchema = new mongoose.Schema({
       ref: "Thread",
     },
   ],
-});
+})
 
-const Thread = mongoose.models.Thread || mongoose.model("Thread", threadSchema);
+const Thread = mongoose.models.Thread || mongoose.model("Thread", threadSchema)
 
-export default Thread;
+export default Thread

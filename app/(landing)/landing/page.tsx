@@ -1,6 +1,6 @@
-import LandingContent from '@/components/LandingContent'
-import LandingHero from '@/components/LandingHero'
-import LandingNavbar from '@/components/LandingNavbar'
+import LandingContent from '@/components/landing/LandingContent'
+import LandingHero from '@/components/landing/LandingHero'
+import LandingNavbar from '@/components/landing/LandingNavbar'
 import React from 'react'
 
 export default function page() {

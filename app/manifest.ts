@@ -2,13 +2,13 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Next.js App',
-    short_name: 'Next.js App',
-    description: 'Next.js App',
+    name: 'X2 | Better than Meta',
+    short_name: 'X2',
+    description: 'Next13 Practice App',
     start_url: '/',
     display: 'standalone',
-    background_color: '#fff',
-    theme_color: '#fff',
+    background_color: '#121417',
+    theme_color: '#121417',
     icons: [
       {
         src: '/icon-192x192.png',
