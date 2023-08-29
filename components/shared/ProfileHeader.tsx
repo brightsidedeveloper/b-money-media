@@ -36,9 +36,9 @@ function ProfileHeader({
               <Image
                 src='/assets/crown.png'
                 alt='crown'
-                width={24}
-                height={24}
-                className='rotate-[20deg] absolute -top-2 right-1 z-10'
+                width={38}
+                height={38}
+                className='rotate-[20deg] absolute -top-4 right-1 z-10'
               />
             )}
             <Image
