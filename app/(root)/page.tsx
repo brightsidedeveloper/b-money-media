@@ -28,7 +28,7 @@ async function Home({
     <>
       <div className='flex justify-between'>
         <h1 className='head-text text-left'>Home</h1>
-        <Refresher />
+        <Refresher username={userInfo.username} />
       </div>
 
       <section className='mt-9 flex flex-col gap-10'>
