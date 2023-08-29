@@ -1,27 +1,25 @@
-import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs";
+import { redirect } from 'next/navigation'
+import { currentUser } from '@clerk/nextjs'
 
-import Comment from "@/components/forms/Comment";
-import ThreadCard from "@/components/cards/ThreadCard";
+import Comment from '@/components/forms/Comment'
+import ThreadCard from '@/components/cards/ThreadCard'
 
-import { fetchUser } from "@/lib/actions/user.actions";
-import { fetchThreadById } from "@/lib/actions/thread.actions";
-import { revalidatePath } from "next/cache";
-import Refresher from "@/components/shared/Refresher";
+import { fetchUser } from '@/lib/actions/user.actions'
+import { fetchThreadById } from '@/lib/actions/thread.actions'
+import Refresher from '@/components/shared/Refresher'
 
-export const revalidate = 0;
+export const revalidate = 0
 
 async function page({ params }: { params: { id: string } }) {
-  if (!params.id) return null;
+  if (!params.id) return null
 
-  const user = await currentUser();
-  if (!user) return null;
+  const user = await currentUser()
+  if (!user) return null
 
-  const userInfo = await fetchUser(user.id);
-  if (!userInfo?.onboarded) redirect("/onboarding");
+  const userInfo = await fetchUser(user.id)
+  if (!userInfo?.onboarded) redirect('/onboarding')
 
-  const thread = await fetchThreadById(params.id);
- 
+  const thread = await fetchThreadById(params.id)
 
   return (
     <section className='relative'>
@@ -46,6 +44,7 @@ async function page({ params }: { params: { id: string } }) {
         <Comment
           threadId={params.id}
           currentUserImg={userInfo.image}
+          crowned={userInfo.verified}
           currentUserId={JSON.stringify(userInfo._id)}
         />
       </div>
@@ -70,7 +69,7 @@ async function page({ params }: { params: { id: string } }) {
         ))}
       </div>
     </section>
-  );
+  )
 }
 
-export default page;
+export default page
