@@ -17,7 +17,7 @@ interface Props {
     image: string
     verified: boolean
     id: string
-  } | null
+  }
   community: {
     id: string
     name: string

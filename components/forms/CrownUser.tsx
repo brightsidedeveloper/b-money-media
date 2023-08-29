@@ -11,7 +11,7 @@ export default function CrownUser({
   crowned?: boolean
   path?: string
 }) {
-  const crown = async () => await crownUser(username, !crowned, path)
+  const crown = async () => await crownUser(username, !crowned, path || '/')
 
   return (
     <button
