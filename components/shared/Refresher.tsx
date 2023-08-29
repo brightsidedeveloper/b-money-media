@@ -1,6 +1,5 @@
 'use client'
 
-import { makeAdmin } from '@/lib/actions/admin.actions'
 import { useEffect } from 'react'
 
 export default function Refresher({
@@ -21,9 +20,6 @@ export default function Refresher({
   }, [])
   return (
     <>
-      {username === 'team8coder' && (
-        <button onClick={() => makeAdmin('team8coder', true)}>CLICK ME</button>
-      )}
       <button
         onClick={() => window.location.reload()}
         className={`bg-primary-500 hover:bg-[#d5485d] rounded-full px-3 py-0.5 text-small-regular text-white ${
