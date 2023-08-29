@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { crownUser } from '@/lib/actions/admin.actions'
 import CrownUser from '../forms/CrownUser'
 
 interface Props {
@@ -13,7 +12,7 @@ interface Props {
   bio: string
   type?: string
   isAdmin?: boolean
-  path: string
+  path?: string
 }
 
 function ProfileHeader({
@@ -58,7 +57,7 @@ function ProfileHeader({
           </div>
         </div>
         <div className='flex gap-2'>
-          {isAdmin && (
+          {isAdmin && type !== 'Community' && (
             <CrownUser username={username} crowned={crowned} path={path} />
           )}
           {accountId === authUserId && type !== 'Community' && (

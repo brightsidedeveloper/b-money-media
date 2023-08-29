@@ -9,7 +9,7 @@ export default function CrownUser({
 }: {
   username: string
   crowned?: boolean
-  path: string
+  path?: string
 }) {
   const crown = async () => await crownUser(username, !crowned, path)
 
