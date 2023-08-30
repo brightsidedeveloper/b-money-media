@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { useOrganization } from "@clerk/nextjs";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname, useRouter } from "next/navigation";
+import * as z from 'zod'
+import { useForm } from 'react-hook-form'
+import { useOrganization } from '@clerk/nextjs'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { usePathname, useRouter } from 'next/navigation'
 
 import {
   Form,
@@ -13,41 +13,49 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/form'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
 
-import { ThreadValidation } from "@/lib/validations/thread";
-import { createThread } from "@/lib/actions/thread.actions";
+import { ThreadValidation } from '@/lib/validations/thread'
+import { createThread } from '@/lib/actions/thread.actions'
+import { useState } from 'react'
 
 interface Props {
-  userId: string;
+  userId: string
 }
 
 function PostThread({ userId }: Props) {
-  const router = useRouter();
-  const pathname = usePathname();
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+  const pathname = usePathname()
 
-  const { organization } = useOrganization();
+  const { organization } = useOrganization()
 
   const form = useForm<z.infer<typeof ThreadValidation>>({
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
-      thread: "",
+      thread: '',
       accountId: userId,
     },
-  });
+  })
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
-    await createThread({
-      text: values.thread,
-      author: userId,
-      communityId: organization ? organization.id : null,
-      path: pathname,
-    });
-
-    router.push("/");
-  };
+    setLoading(true)
+    try {
+      await createThread({
+        text: values.thread,
+        author: userId,
+        communityId: organization ? organization.id : null,
+        path: pathname,
+      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+      router.push('/')
+    }
+  }
 
   return (
     <Form {...form}>
@@ -71,12 +79,12 @@ function PostThread({ userId }: Props) {
           )}
         />
 
-        <Button type='submit' className='bg-primary-500'>
-          Post Thread
+        <Button disabled={loading} type='submit' className='bg-primary-500'>
+          {loading ? 'Posting...' : 'Post Thread'}
         </Button>
       </form>
     </Form>
-  );
+  )
 }
 
-export default PostThread;
+export default PostThread
