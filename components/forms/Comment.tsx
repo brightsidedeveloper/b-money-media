@@ -51,8 +51,8 @@ function Comment({ threadId, currentUserImg, crowned, currentUserId }: Props) {
     } catch (err) {
       console.log(err)
     } finally {
-      setLoading(false)
       form.reset()
+      setLoading(false)
     }
   }
 

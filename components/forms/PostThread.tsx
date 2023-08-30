@@ -52,8 +52,8 @@ function PostThread({ userId }: Props) {
     } catch (error) {
       console.log(error)
     } finally {
-      setLoading(false)
       router.push('/')
+      setTimeout(() => setLoading(false), 500)
     }
   }
 
