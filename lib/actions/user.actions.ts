@@ -20,9 +20,9 @@ export async function fetchUser(userId: string) {
       model: Community,
     })
 
-    await knock.users.identify(userId, {
-      name: user.name,
-    })
+    // await knock.users.identify(userId, {
+    //   name: user.name,
+    // })
 
     return user
   } catch (error: any) {

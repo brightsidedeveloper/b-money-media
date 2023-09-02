@@ -243,13 +243,13 @@ export async function addCommentToThread(
     // Save the updated original thread to the database
     await originalThread.save()
 
-    const sender = await User.findById(userId)
+    // const sender = await User.findById(userId)
 
-    await knock.notify('new-comment', {
-      actor: sender.id,
-      recipients: [originalThread.author.id],
-      data: { variableKey: 'Preview data value' },
-    })
+    // await knock.notify('new-comment', {
+    //   actor: sender.id,
+    //   recipients: [originalThread.author.id],
+    //   data: { variableKey: 'Preview data value' },
+    // })
 
     revalidatePath(path)
   } catch (err) {
