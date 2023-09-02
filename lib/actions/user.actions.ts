@@ -6,17 +6,25 @@ import { revalidatePath } from 'next/cache'
 import Community from '../models/community.model'
 import Thread from '../models/thread.model'
 import User from '../models/user.model'
-
+import { Knock } from '@knocklabs/node'
 import { connectToDB } from '../mongoose'
+
+const knock = new Knock(process.env.KNOCK_SECRET_KEY)
 
 export async function fetchUser(userId: string) {
   try {
     connectToDB()
 
-    return await User.findOne({ id: userId }).populate({
+    const user = await User.findOne({ id: userId }).populate({
       path: 'communities',
       model: Community,
     })
+
+    await knock.users.identify(userId, {
+      name: user.name,
+    })
+
+    return user
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`)
   }

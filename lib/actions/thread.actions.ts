@@ -8,6 +8,10 @@ import User from '../models/user.model'
 import Thread from '../models/thread.model'
 import Community from '../models/community.model'
 
+import { Knock } from '@knocklabs/node'
+
+const knock = new Knock(process.env.KNOCK_SECRET_KEY)
+
 export async function fetchPosts(pageNumber = 1, pageSize = 20) {
   connectToDB()
 
@@ -214,7 +218,10 @@ export async function addCommentToThread(
 
   try {
     // Find the original thread by its ID
-    const originalThread = await Thread.findById(threadId)
+    const originalThread = await Thread.findById(threadId).populate({
+      path: 'author',
+      model: User,
+    })
 
     if (!originalThread) {
       throw new Error('Thread not found')
@@ -235,6 +242,14 @@ export async function addCommentToThread(
 
     // Save the updated original thread to the database
     await originalThread.save()
+
+    const sender = await User.findById(userId)
+
+    await knock.notify('new-comment', {
+      actor: sender.id,
+      recipients: [originalThread.author.id],
+      data: { variableKey: 'Preview data value' },
+    })
 
     revalidatePath(path)
   } catch (err) {

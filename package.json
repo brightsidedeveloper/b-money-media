@@ -13,6 +13,7 @@
     "@clerk/themes": "^1.7.5",
     "@ducanh2912/next-pwa": "^9.5.0",
     "@hookform/resolvers": "^3.1.1",
+    "@knocklabs/node": "^0.4.23",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-menubar": "^1.0.3",
     "@radix-ui/react-select": "^1.2.2",
