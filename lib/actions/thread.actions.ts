@@ -8,9 +8,9 @@ import User from '../models/user.model'
 import Thread from '../models/thread.model'
 import Community from '../models/community.model'
 
-import { Knock } from '@knocklabs/node'
+// import { Knock } from '@knocklabs/node'
 
-const knock = new Knock(process.env.KNOCK_SECRET_KEY)
+// const knock = new Knock(process.env.KNOCK_SECRET_KEY)
 
 export async function fetchPosts(pageNumber = 1, pageSize = 20) {
   connectToDB()

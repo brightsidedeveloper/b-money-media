@@ -6,10 +6,10 @@ import { revalidatePath } from 'next/cache'
 import Community from '../models/community.model'
 import Thread from '../models/thread.model'
 import User from '../models/user.model'
-import { Knock } from '@knocklabs/node'
 import { connectToDB } from '../mongoose'
 
-const knock = new Knock(process.env.KNOCK_SECRET_KEY)
+// import { Knock } from '@knocklabs/node'
+// const knock = new Knock(process.env.KNOCK_SECRET_KEY)
 
 export async function fetchUser(userId: string) {
   try {
