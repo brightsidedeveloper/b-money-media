@@ -22,6 +22,7 @@ export default function Abilities({
         <option value='rainbow-text'>Rainbow Text</option>
         <option value='gold-text'>Gold Text</option>
         <option value='party-hat'>Party Hat</option>
+        <option value='mega-crown'>Mega Crown</option>
         <option value='crown'>Crown</option>
       </select>
       <button

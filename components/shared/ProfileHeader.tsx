@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import CrownUser from '../forms/CrownUser'
 import Abilities from '../forms/Abilities'
+import { cn } from '@/lib/utils'
 
 interface Props {
   accountId: string
@@ -48,9 +48,12 @@ function ProfileHeader({
                 <Image
                   src='/assets/crown.png'
                   alt='crown'
-                  width={38}
-                  height={38}
-                  className='rotate-[20deg] absolute -top-4 right-1 z-10'
+                  width={abilities?.includes('mega-crown') ? 72 : 38}
+                  height={abilities?.includes('mega-crown') ? 72 : 38}
+                  className={cn(
+                    'rotate-[20deg] absolute -top-4 right-1 z-10',
+                    abilities?.includes('mega-crown') && '-top-10 -right-3'
+                  )}
                 />
               )
             )}

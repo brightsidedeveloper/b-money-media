@@ -72,9 +72,13 @@ function ThreadCard({
                   <Image
                     src='/assets/crown.png'
                     alt='crown'
-                    width={24}
-                    height={24}
-                    className='rotate-[20deg] absolute -top-3 right-0 z-10'
+                    width={author.abilities?.includes('mega-crown') ? 44 : 24}
+                    height={author.abilities?.includes('mega-crown') ? 44 : 24}
+                    className={cn(
+                      'rotate-[20deg] absolute -top-3 right-0 z-10',
+                      author.abilities?.includes('mega-crown') &&
+                        '-top-6 -right-2'
+                    )}
                   />
                 )
               )}

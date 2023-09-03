@@ -20,6 +20,7 @@ import { Button } from '../ui/button'
 import { CommentValidation } from '@/lib/validations/thread'
 import { addCommentToThread } from '@/lib/actions/thread.actions'
 import { useState } from 'react'
+import { cn } from '@/lib/utils'
 
 interface Props {
   threadId: string
@@ -84,9 +85,13 @@ function Comment({
                       <Image
                         src='/assets/crown.png'
                         alt='crown'
-                        width={24}
-                        height={24}
-                        className='rotate-[20deg] absolute -top-3 right-0 z-10'
+                        width={abilities?.includes('mega-crown') ? 40 : 24}
+                        height={abilities?.includes('mega-crown') ? 40 : 24}
+                        className={cn(
+                          'rotate-[20deg] absolute -top-3 right-0 z-10',
+                          abilities?.includes('mega-crown') &&
+                            '-top-6 -right-2.5'
+                        )}
                       />
                     )
                   )}
