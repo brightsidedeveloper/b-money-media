@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body, :root {
+  @apply bg-[#f69435]
+}
+
 @layer components {
   /* main */
   .main-container {
