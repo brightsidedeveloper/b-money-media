@@ -21,6 +21,7 @@ interface Result {
       image: string
       id: string
       verified?: boolean
+      abilities?: string[]
     }
     community: {
       id: string
@@ -81,6 +82,7 @@ async function ThreadsTab({
                   id: result.id,
                   username: result.username,
                   verified: result.verified,
+                  abilities: result.abilities || [],
                 }
               : {
                   name: thread.author.name,

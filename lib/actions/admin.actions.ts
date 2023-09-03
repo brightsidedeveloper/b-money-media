@@ -34,3 +34,27 @@ export async function crownUser(
     console.error(err)
   }
 }
+
+export async function promoteAbility(
+  username: string,
+  ability: string,
+  add: boolean = false,
+  path: string
+) {
+  connectToDB()
+
+  try {
+    const user = await User.findOne({ username })
+
+    const abilities = user.abilities || []
+
+    if (add) abilities.push(ability)
+    else abilities.splice(abilities.indexOf(ability), 1)
+
+    await User.findOneAndUpdate({ username }, { abilities }, { upsert: true })
+
+    revalidatePath(path)
+  } catch (err: any) {
+    console.error(err)
+  }
+}

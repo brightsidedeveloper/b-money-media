@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import CrownUser from '../forms/CrownUser'
+import Abilities from '../forms/Abilities'
 
 interface Props {
   accountId: string
@@ -8,6 +9,7 @@ interface Props {
   name: string
   username: string
   crowned?: boolean
+  abilities: string[]
   imgUrl: string
   bio: string
   type?: string
@@ -22,6 +24,7 @@ function ProfileHeader({
   username,
   crowned,
   imgUrl,
+  abilities,
   bio,
   type,
   isAdmin,
@@ -32,14 +35,24 @@ function ProfileHeader({
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-3'>
           <div className='relative h-20 w-20 object-cover'>
-            {crowned && (
+            {abilities?.includes('party-hat') ? (
               <Image
-                src='/assets/crown.png'
+                src='/assets/party-hat.png'
                 alt='crown'
                 width={38}
                 height={38}
-                className='rotate-[20deg] absolute -top-4 right-1 z-10'
+                className='rotate-[20deg] absolute -top-8 right-0 z-10'
               />
+            ) : (
+              crowned && (
+                <Image
+                  src='/assets/crown.png'
+                  alt='crown'
+                  width={38}
+                  height={38}
+                  className='rotate-[20deg] absolute -top-4 right-1 z-10'
+                />
+              )
             )}
             <Image
               src={imgUrl}
@@ -58,7 +71,10 @@ function ProfileHeader({
         </div>
         <div className='flex gap-2'>
           {isAdmin && type !== 'Community' && (
-            <CrownUser username={username} crowned={crowned} path={path} />
+            <>
+              <Abilities username={username} path={path} />
+              <CrownUser username={username} crowned={crowned} path={path} />
+            </>
           )}
           {accountId === authUserId && type !== 'Community' && (
             <Link href='/profile/edit'>

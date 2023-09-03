@@ -17,6 +17,7 @@ interface Props {
     image: string
     verified: boolean
     id: string
+    abilities: string[]
   }
   community: {
     id: string
@@ -58,14 +59,24 @@ function ThreadCard({
         <div className='flex w-full flex-1 flex-row gap-4'>
           <div className='flex flex-col items-center'>
             <Link href={`/profile/${author.id}`} className='relative h-11 w-11'>
-              {author.verified && (
+              {author.abilities?.includes('party-hat') ? (
                 <Image
-                  src='/assets/crown.png'
+                  src='/assets/party-hat.png'
                   alt='crown'
                   width={24}
                   height={24}
-                  className='rotate-[20deg] absolute -top-3 right-0 z-10'
+                  className='rotate-[20deg] absolute -top-5 right-0 z-10'
                 />
+              ) : (
+                author.verified && (
+                  <Image
+                    src='/assets/crown.png'
+                    alt='crown'
+                    width={24}
+                    height={24}
+                    className='rotate-[20deg] absolute -top-3 right-0 z-10'
+                  />
+                )
               )}
               <Image
                 src={author.image}
@@ -90,7 +101,13 @@ function ThreadCard({
               </div>
             </Link>
 
-            <p className='mt-2 text-small-regular text-light-2'>{content}</p>
+            <p
+              className={`mt-2 text-small-regular text-light-2 ${
+                author.abilities?.includes('gold-text') && 'text-yellow-400'
+              }`}
+            >
+              {content}
+            </p>
 
             <div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
               <div className='flex gap-3.5'>
