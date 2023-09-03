@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 html, body, :root {
-  @apply bg-[#121417]
+  @apply bg-[#121417];
 }
+
+
 
 @layer components {
   /* main */
