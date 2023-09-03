@@ -52,7 +52,7 @@ async function ThreadsTab({
   uid,
   accountType,
 }: Props) {
-  let result: Result
+  let result: any
 
   if (accountType === 'Community') {
     result = await fetchCommunityPosts(accountId)
@@ -90,6 +90,7 @@ async function ThreadsTab({
                   id: thread.author.id,
                   username: thread.author.username,
                   verified: result.verified,
+                  abilities: result.abilities || [],
                 }
           }
           community={
