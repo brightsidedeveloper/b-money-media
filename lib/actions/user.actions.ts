@@ -3,7 +3,6 @@
 import { FilterQuery, SortOrder } from 'mongoose'
 import { revalidatePath } from 'next/cache'
 
-import Community from '../models/community.model'
 import Thread from '../models/thread.model'
 import User from '../models/user.model'
 import { connectToDB } from '../mongoose'
@@ -15,10 +14,7 @@ export async function fetchUser(userId: string) {
   try {
     connectToDB()
 
-    const user = await User.findOne({ id: userId }).populate({
-      path: 'communities',
-      model: Community,
-    })
+    const user = await User.findOne({ id: userId })
 
     // await knock.users.identify(userId, {
     //   name: user.name,
@@ -80,11 +76,6 @@ export async function fetchUserPosts(userId: string) {
       model: Thread,
       populate: [
         {
-          path: 'community',
-          model: Community,
-          select: 'name id image _id', // Select the "name" and "_id" fields from the "Community" model
-        },
-        {
           path: 'children',
           model: Thread,
           populate: {
@@ -102,7 +93,7 @@ export async function fetchUserPosts(userId: string) {
   }
 }
 
-// Almost similar to Thead (search + pagination) and Community (search + pagination)
+// Almost similar to Thead (search + pagination)  (search + pagination)
 export async function fetchUsers({
   userId,
   searchString = '',

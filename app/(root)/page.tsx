@@ -46,7 +46,6 @@ async function Home({
                   parentId={post.parentId}
                   content={post.text}
                   author={post.author}
-                  community={post.community}
                   createdAt={post.createdAt}
                   comments={post.children}
                   liked={post.likes?.includes(userInfo._id)}

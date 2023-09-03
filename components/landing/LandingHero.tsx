@@ -16,8 +16,8 @@ export default function LandingHero() {
           <TypewriterComponent
             options={{
               strings: [
-                'Posting Tweets.',
-                'Starting Communities.',
+                'Posting fire.',
+                'Clowing People.',
                 'Saying funny stuff.',
                 'Sharing your thoughts.',
               ],

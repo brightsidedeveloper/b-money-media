@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { cn, formatDateString } from '@/lib/utils'
 import DeleteThread from '../forms/DeleteThread'
 import LikePost from '../forms/LikePost'
+import { create } from 'domain'
 
 interface Props {
   id: string
@@ -19,11 +20,7 @@ interface Props {
     id: string
     abilities: string[]
   }
-  community: {
-    id: string
-    name: string
-    image: string
-  } | null
+
   createdAt: string
   comments: {
     author: {
@@ -43,7 +40,6 @@ function ThreadCard({
   parentId,
   content,
   author,
-  community,
   createdAt,
   comments,
   isComment,
@@ -89,7 +85,7 @@ function ThreadCard({
                     ? '/assets/clown.png'
                     : author.image
                 }
-                alt='user_community_image'
+                alt='user_image'
                 fill
                 className='cursor-pointer object-cover rounded-full'
               />
@@ -171,7 +167,9 @@ function ThreadCard({
             </div>
           </div>
         </div>
-
+        {createdAt && (
+          <span className='text-light-2/40'>{formatDateString(createdAt)}</span>
+        )}
         <DeleteThread
           threadId={JSON.stringify(id)}
           currentUserId={currentUserId}
@@ -207,26 +205,6 @@ function ThreadCard({
               {comments.length} repl{comments.length > 1 ? 'ies' : 'y'}
             </p>
           </div>
-        </Link>
-      )}
-
-      {!isComment && community && (
-        <Link
-          href={`/communities/${community.id}`}
-          className='mt-5 flex items-center'
-        >
-          <p className='text-subtle-medium text-gray-1'>
-            {formatDateString(createdAt)}
-            {community && ` - ${community.name} Community`}
-          </p>
-
-          <Image
-            src={community.image}
-            alt={community.name}
-            width={14}
-            height={14}
-            className='ml-1 rounded-full object-cover'
-          />
         </Link>
       )}
     </article>

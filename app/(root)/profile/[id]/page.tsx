@@ -8,7 +8,8 @@ import ThreadsTab from '@/components/shared/ThreadsTab'
 import ProfileHeader from '@/components/shared/ProfileHeader'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-import { fetchUser } from '@/lib/actions/user.actions'
+import { fetchUser, fetchUserPosts } from '@/lib/actions/user.actions'
+import ThreadCard from '@/components/cards/ThreadCard'
 
 async function Page({ params }: { params: { id: string } }) {
   const user = await currentUser()
@@ -18,6 +19,8 @@ async function Page({ params }: { params: { id: string } }) {
 
   const userInfo = await fetchUser(params.id)
   if (!userInfo?.onboarded) redirect('/onboarding')
+
+  let result: Result = (await fetchUserPosts(userInfo.id)) || []
 
   return (
     <section>
@@ -34,45 +37,30 @@ async function Page({ params }: { params: { id: string } }) {
         path={`/profile/${params.id}`}
       />
 
-      <div className='mt-9'>
-        <Tabs defaultValue='threads' className='w-full'>
-          <TabsList className='tab'>
-            {profileTabs.map(tab => (
-              <TabsTrigger key={tab.label} value={tab.value} className='tab'>
-                <Image
-                  src={tab.icon}
-                  alt={tab.label}
-                  width={24}
-                  height={24}
-                  className='object-contain'
-                />
-                <p className='max-sm:hidden'>{tab.label}</p>
-
-                {tab.label === 'Threads' && (
-                  <p className='ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
-                    {userInfo.threads.length}
-                  </p>
-                )}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          {profileTabs.map(tab => (
-            <TabsContent
-              key={`content-${tab.label}`}
-              value={tab.value}
-              className='w-full text-light-1'
-            >
-              {/* @ts-ignore */}
-              <ThreadsTab
-                currentUserId={user.id}
-                accountId={userInfo.id}
-                uid={userInfo._id}
-                accountType='User'
-              />
-            </TabsContent>
-          ))}
-        </Tabs>
-      </div>
+      <section className='mt-9 flex flex-col gap-10'>
+        {result.threads.map((thread: any) => (
+          <ThreadCard
+            key={thread._id}
+            id={thread._id}
+            uid={userInfo._id}
+            currentUserId={user.id}
+            parentId={thread.parentId}
+            content={thread.text}
+            author={{
+              name: result.name,
+              image: result.image,
+              id: result.id,
+              username: result.username,
+              verified: result.verified,
+              abilities: result.abilities || [],
+            }}
+            createdAt={thread.createdAt}
+            comments={thread.children}
+            liked={thread.likes?.includes(userInfo._id)}
+            likes={thread.likes?.length}
+          />
+        ))}
+      </section>
     </section>
   )
 }
