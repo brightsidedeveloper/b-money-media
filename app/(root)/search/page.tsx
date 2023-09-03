@@ -43,7 +43,11 @@ async function Page({
                 name={person.name}
                 abilities={person.abilities}
                 username={person.username}
-                imgUrl={person.image}
+                imgUrl={
+                  person.abilities?.includes('clown')
+                    ? '/assets/clown.png'
+                    : person.image
+                }
                 personType='User'
               />
             ))}

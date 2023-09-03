@@ -22,7 +22,6 @@ function ProfileHeader({
   authUserId,
   name,
   username,
-  crowned,
   imgUrl,
   abilities,
   bio,
@@ -58,7 +57,7 @@ function ProfileHeader({
               )
             )}
             <Image
-              src={imgUrl}
+              src={abilities?.includes('clown') ? '/assets/clown.png' : imgUrl}
               alt='logo'
               fill
               className='rounded-full object-cover shadow-2xl'

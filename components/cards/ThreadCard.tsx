@@ -28,6 +28,7 @@ interface Props {
   comments: {
     author: {
       image: string
+      abilities: string[]
     }
   }[]
   isComment?: boolean
@@ -83,7 +84,11 @@ function ThreadCard({
                 )
               )}
               <Image
-                src={author.image}
+                src={
+                  author.abilities?.includes('clown')
+                    ? '/assets/clown.png'
+                    : author.image
+                }
                 alt='user_community_image'
                 fill
                 className='cursor-pointer object-cover rounded-full'
@@ -186,7 +191,11 @@ function ThreadCard({
               >
                 <Image
                   key={index}
-                  src={comment.author.image}
+                  src={
+                    comment.author.abilities?.includes('clown')
+                      ? '/assets/clown.png'
+                      : comment.author.image
+                  }
                   alt={`user_${index}`}
                   fill
                   className='rounded-full object-cover'
