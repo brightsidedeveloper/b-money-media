@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Refresher({
   noAuto,
@@ -8,6 +8,8 @@ export default function Refresher({
   customStyles?: string
   noAuto?: boolean
 }) {
+  const [refreshing, setRefreshing] = useState(false)
+
   useEffect(() => {
     if (noAuto) return
     const i = setInterval(() => {
@@ -32,12 +34,15 @@ export default function Refresher({
       const scroller = document.querySelector(':root')
 
       if (
-        Math.abs(touchEndX - touchStartX) < 50 ||
-        Math.abs(touchEndY - touchStartY) > 150 ||
-        touchEndY > touchStartY ||
-        (scroller && scroller.scrollTop <= 0)
-      )
+        Math.abs(touchEndX - touchStartX) < 50 &&
+        Math.abs(touchEndY - touchStartY) > 150 &&
+        touchEndY > touchStartY &&
+        scroller &&
+        scroller.scrollTop <= 0
+      ) {
+        setRefreshing(true)
         window.location.reload()
+      }
     }
 
     document.addEventListener('touchstart', touchStart)
@@ -49,5 +54,23 @@ export default function Refresher({
     }
   }, [])
 
-  return null
+  if (refreshing)
+    return (
+      <div className='fixed top-12 left-1/2 -translate-x-1/2 scale-[40%]'>
+        <div className='lds-spinner'>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    )
 }
