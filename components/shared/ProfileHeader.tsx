@@ -9,7 +9,7 @@ interface Props {
   name: string
   username: string
   crowned?: boolean
-  abilities: string[]
+  abilities?: string[]
   imgUrl: string
   bio: string
   type?: string
