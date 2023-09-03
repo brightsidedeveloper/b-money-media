@@ -10,6 +10,7 @@ interface Result {
   username: string
   image: string
   verified: boolean
+  abilities?: string[]
   id: string
   threads: {
     _id: string
@@ -52,7 +53,7 @@ async function ThreadsTab({
   uid,
   accountType,
 }: Props) {
-  let result: any
+  let result: Result
 
   if (accountType === 'Community') {
     result = await fetchCommunityPosts(accountId)
