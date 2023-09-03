@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html, body, :root {
-  @apply bg-[#f69435]
+  @apply bg-[#121417]
 }
 
 @layer components {
@@ -165,7 +165,7 @@ html, body, :root {
 }
 
 .rainbow-text {
-  background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+  background-image: linear-gradient(to right, rgb(255, 49, 49), orange, yellow, green, rgb(0, 64, 255), rgb(138, 44, 206), violet);
   -webkit-background-clip: text;
   color: transparent;
 }
