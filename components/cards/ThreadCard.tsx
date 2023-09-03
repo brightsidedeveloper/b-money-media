@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { cn, formatDateString } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import DeleteThread from '../forms/DeleteThread'
 import LikePost from '../forms/LikePost'
-import { create } from 'domain'
+import LocalTimestamp from '../shared/LocalTimestamp'
 
 interface Props {
   id: string
@@ -112,11 +112,7 @@ function ThreadCard({
                   </p>
                 </div>
               </Link>
-              {createdAt && (
-                <span className='text-light-2/40'>
-                  {formatDateString(createdAt)}
-                </span>
-              )}
+              {createdAt && <LocalTimestamp createdAt={createdAt} />}
             </div>
 
             <p
