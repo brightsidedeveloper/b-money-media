@@ -48,8 +48,10 @@ export async function promoteAbility(
 
     const abilities = user.abilities || []
 
-    if (add) abilities.push(ability)
-    else abilities.splice(abilities.indexOf(ability), 1)
+    if (add && !abilities.includes(ability)) abilities.push(ability)
+    else if (!add && abilities.includes(ability))
+      abilities.splice(abilities.indexOf(ability), 1)
+    else return
 
     await User.findOneAndUpdate({ username }, { abilities }, { upsert: true })
 

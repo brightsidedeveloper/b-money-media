@@ -63,7 +63,11 @@ function ProfileHeader({
           </div>
 
           <div className='flex-1'>
-            <h2 className='text-left text-heading3-bold text-light-1'>
+            <h2
+              className={`text-left text-heading3-bold text-light-1 ${
+                abilities?.includes('gold-name') && 'text-yellow-400'
+              }`}
+            >
               {name}
             </h2>
             <p className='text-base-medium text-gray-1'>@{username}</p>

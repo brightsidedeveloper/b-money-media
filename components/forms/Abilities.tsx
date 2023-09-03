@@ -18,6 +18,8 @@ export default function Abilities({
         value={selectValue}
         onChange={e => setSelectValue(e.target.value)}
       >
+        <option value='gold-name'>Gold Name</option>
+        <option value='rainbow-text'>Rainbow Text</option>
         <option value='gold-text'>Gold Text</option>
         <option value='party-hat'>Party Hat</option>
         <option value='crown'>Crown</option>

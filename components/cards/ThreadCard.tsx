@@ -92,7 +92,11 @@ function ThreadCard({
           <div className='flex w-full flex-col'>
             <Link href={`/profile/${author.id}`} className='w-fit'>
               <div className='flex flex-col'>
-                <h4 className='cursor-pointer text-base-semibold text-light-1'>
+                <h4
+                  className={`'cursor-pointer text-base-semibold text-light-1' ${
+                    author.abilities?.includes('gold-name') && 'text-yellow-400'
+                  }`}
+                >
                   {author.name}
                 </h4>
                 <p className='cursor-pointer text-small-regular text-light-1/50'>
@@ -103,7 +107,9 @@ function ThreadCard({
 
             <p
               className={`mt-2 text-small-regular text-light-2 ${
-                author.abilities?.includes('gold-text') && 'text-yellow-400'
+                author.abilities?.includes('rainbow-text')
+                  ? 'rainbow-text'
+                  : author.abilities?.includes('gold-text') && 'text-yellow-400'
               }`}
             >
               {content}
