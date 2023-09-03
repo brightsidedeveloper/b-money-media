@@ -4,17 +4,25 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '../ui/button'
+import { cn } from '@/lib/utils'
 
 interface Props {
   id: string
   name: string
   username: string
-  crowned?: boolean
+  abilities?: string[]
   imgUrl: string
   personType: string
 }
 
-function UserCard({ id, name, username, crowned, imgUrl, personType }: Props) {
+function UserCard({
+  id,
+  name,
+  username,
+  abilities,
+  imgUrl,
+  personType,
+}: Props) {
   const router = useRouter()
 
   const isCommunity = personType === 'Community'
@@ -23,14 +31,27 @@ function UserCard({ id, name, username, crowned, imgUrl, personType }: Props) {
     <article className='user-card'>
       <div className='user-card_avatar'>
         <div className='relative h-12 w-12'>
-          {crowned && (
+          {abilities?.includes('party-hat') ? (
             <Image
-              src='/assets/crown.png'
+              src='/assets/party-hat.png'
               alt='crown'
               width={24}
               height={24}
-              className='rotate-[20deg] absolute -top-3 right-0 z-10'
+              className='rotate-[20deg] absolute -top-5 right-0 z-10'
             />
+          ) : (
+            abilities?.includes('crown') && (
+              <Image
+                src='/assets/crown.png'
+                alt='crown'
+                width={abilities?.includes('mega-crown') ? 44 : 24}
+                height={abilities?.includes('mega-crown') ? 44 : 24}
+                className={cn(
+                  'rotate-[20deg] absolute -top-3 right-0 z-10',
+                  abilities?.includes('mega-crown') && '-top-6 -right-2'
+                )}
+              />
+            )
           )}
           <Image
             src={imgUrl}
@@ -41,7 +62,14 @@ function UserCard({ id, name, username, crowned, imgUrl, personType }: Props) {
         </div>
 
         <div className='flex-1 text-ellipsis'>
-          <h4 className='text-base-semibold text-light-1'>{name}</h4>
+          <h4
+            className={cn(
+              'text-base-semibold text-light-1',
+              abilities?.includes('gold-name') && 'text-yellow-400'
+            )}
+          >
+            {name}
+          </h4>
           <p className='text-small-medium text-gray-1'>@{username}</p>
         </div>
       </div>

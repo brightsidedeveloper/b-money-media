@@ -41,7 +41,7 @@ async function Page({
                 key={person.id}
                 id={person.id}
                 name={person.name}
-                crowned={person.verified}
+                abilities={person.abilities}
                 username={person.username}
                 imgUrl={person.image}
                 personType='User'
