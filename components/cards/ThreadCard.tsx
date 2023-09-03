@@ -167,9 +167,7 @@ function ThreadCard({
             </div>
           </div>
         </div>
-        {createdAt && (
-          <span className='text-light-2/40'>{formatDateString(createdAt)}</span>
-        )}
+
         <DeleteThread
           threadId={JSON.stringify(id)}
           currentUserId={currentUserId}
