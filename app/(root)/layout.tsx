@@ -22,9 +22,9 @@ export const metadata: Metadata = {
     statusBarStyle: 'default',
     title: 'X2',
     startupImage: [
-      '/appleSplash/X2.png',
+      '/apple-splash/iphone12max.png',
       {
-        url: '/appleSplash/iphone12max.png',
+        url: '/apple-splash/iphone12max.png',
         media: '(device-width: 1284px) and (device-height: 2778px)',
       },
     ],
