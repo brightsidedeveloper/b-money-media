@@ -15,7 +15,7 @@ async function Page({ params }: { params: { id: string } }) {
   const userInfo = await fetchUser(params.id)
   if (!userInfo?.onboarded) redirect('/onboarding')
 
-  let result: Result = (await fetchUserPosts(userInfo.id)) || []
+  const result: any = (await fetchUserPosts(userInfo.id)) || []
 
   return (
     <section>
