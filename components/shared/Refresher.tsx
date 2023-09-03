@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function Refresher({
   noAuto,
@@ -8,15 +9,16 @@ export default function Refresher({
   customStyles?: string
   noAuto?: boolean
 }) {
+  const router = useRouter()
   const [refreshing, setRefreshing] = useState(false)
 
   useEffect(() => {
     if (noAuto) return
     const i = setInterval(() => {
-      window.location.reload()
-    }, 1000 * 60)
+      router.refresh()
+    }, 1000 * 30)
     return () => clearInterval(i)
-  }, [])
+  }, [router, noAuto])
 
   useEffect(() => {
     let touchStartX = 0
@@ -41,7 +43,10 @@ export default function Refresher({
         scroller.scrollTop <= 0
       ) {
         setRefreshing(true)
-        window.location.reload()
+        router.refresh()
+        setTimeout(() => {
+          setRefreshing(false)
+        }, 500)
       }
     }
 
@@ -52,7 +57,7 @@ export default function Refresher({
       document.removeEventListener('touchstart', touchStart)
       document.removeEventListener('touchend', touchEnd)
     }
-  }, [])
+  }, [router])
 
   if (refreshing)
     return (
