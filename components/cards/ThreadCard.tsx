@@ -175,18 +175,19 @@ function ThreadCard({
       {!isComment && comments.length > 0 && (
         <Link href={`/thread/${id}`}>
           <div className='ml-1 mt-3 flex items-center gap-2'>
-            {comments.slice(0, 2).map((comment, index) => (
-              <Image
+            {comments.slice(0, 4).map((comment, index) => (
+              <div
+                className={cn(index !== 0 && '-ml-7', 'relative h-8 w-8')}
                 key={index}
-                src={comment.author.image}
-                alt={`user_${index}`}
-                width={24}
-                height={24}
-                className={cn(
-                  index !== 0 && '-ml-5',
-                  'rounded-full object-cover'
-                )}
-              />
+              >
+                <Image
+                  key={index}
+                  src={comment.author.image}
+                  alt={`user_${index}`}
+                  fill
+                  className='rounded-full object-cover'
+                />
+              </div>
             ))}
 
             <p className='mt-1 text-subtle-medium text-gray-1'>
