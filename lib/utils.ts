@@ -15,6 +15,7 @@ export function isBase64Image(imageData: string) {
 // created by chatgpt
 export function formatDateString(dateString: string) {
   const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
     month: 'short',
     day: 'numeric',
   }
@@ -27,7 +28,28 @@ export function formatDateString(dateString: string) {
     minute: '2-digit',
   })
 
-  return `${time} - ${formattedDate}`
+  const now = new Date()
+  // is it today?
+  if (date.getDate() === now.getDate()) {
+    return time
+  }
+  // is it yesterday?
+  if (date.getDate() === now.getDate() - 1) {
+    return 'Yesterday'
+  }
+  // was it longer than a week ago?
+  const oneWeekAgo = new Date()
+  oneWeekAgo.setDate(now.getDate() - 7)
+  if (!(date >= oneWeekAgo && date <= now)) {
+    return formattedDate
+  }
+
+  // was it this week?
+  if (date.getDate() > now.getDate() - 7) {
+    return `${date.toLocaleDateString(undefined, { weekday: 'short' })}`
+  }
+
+  return formattedDate
 }
 
 // created by chatgpt

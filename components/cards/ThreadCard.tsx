@@ -95,21 +95,29 @@ function ThreadCard({
           </div>
 
           <div className='flex w-full flex-col'>
-            <Link href={`/profile/${author.id}`} className='w-fit'>
-              <div className='flex flex-col'>
-                <h4
-                  className={cn(
-                    'cursor-pointer text-base-semibold text-light-1',
-                    author.abilities?.includes('gold-name') && 'text-yellow-400'
-                  )}
-                >
-                  {author.name}
-                </h4>
-                <p className='cursor-pointer text-small-regular text-light-1/50'>
-                  @{author.username}
-                </p>
-              </div>
-            </Link>
+            <div className='flex items-center justify-between'>
+              <Link href={`/profile/${author.id}`} className='w-fit'>
+                <div className='flex flex-col'>
+                  <h4
+                    className={cn(
+                      'cursor-pointer text-base-semibold text-light-1',
+                      author.abilities?.includes('gold-name') &&
+                        'text-yellow-400'
+                    )}
+                  >
+                    {author.name}
+                  </h4>
+                  <p className='cursor-pointer text-small-regular text-light-1/50'>
+                    @{author.username}
+                  </p>
+                </div>
+              </Link>
+              {createdAt && (
+                <span className='text-light-2/40'>
+                  {formatDateString(createdAt)}
+                </span>
+              )}
+            </div>
 
             <p
               className={`mt-2 text-small-regular text-light-2 ${
@@ -167,7 +175,6 @@ function ThreadCard({
             </div>
           </div>
         </div>
-
         <DeleteThread
           threadId={JSON.stringify(id)}
           currentUserId={currentUserId}
