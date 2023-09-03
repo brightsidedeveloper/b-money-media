@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { formatDateString } from '@/lib/utils'
+import { cn, formatDateString } from '@/lib/utils'
 import DeleteThread from '../forms/DeleteThread'
 import LikePost from '../forms/LikePost'
 
@@ -93,9 +93,10 @@ function ThreadCard({
             <Link href={`/profile/${author.id}`} className='w-fit'>
               <div className='flex flex-col'>
                 <h4
-                  className={`'cursor-pointer text-base-semibold text-light-1' ${
+                  className={cn(
+                    'cursor-pointer text-base-semibold text-light-1',
                     author.abilities?.includes('gold-name') && 'text-yellow-400'
-                  }`}
+                  )}
                 >
                   {author.name}
                 </h4>
