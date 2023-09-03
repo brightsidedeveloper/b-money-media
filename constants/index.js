@@ -20,7 +20,7 @@ export const sidebarLinks = [
     label: 'Create Thread',
   },
   {
-    imgURL: '/assets/community.svg',
+    imgURL: '/assets/question.svg',
     route: '/wip',
     label: 'WIP',
   },
