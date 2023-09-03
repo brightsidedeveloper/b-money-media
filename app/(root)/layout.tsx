@@ -15,17 +15,22 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'X2 | Better than Meta',
   description: 'A Next.js 13 Practice Project',
-manifest: "/manifest.json",
-  themeColor: "#121417",
+  manifest: '/manifest.json',
+  themeColor: '#121417',
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: 'default',
     title: 'X2',
-    startupImage: {
-      url: '/X2.png',
-    },
+    startupImage: [
+      '/appleSplash/X2.png',
+      {
+        url: '/assets/startup/apple-touch-startup-image-1536x2008.png',
+        media: '(device-width: 768px) and (device-height: 1024px)',
+      },
+    ],
   },
-  viewport: 'width=device-width, height=device-height, initial-scale:1, user-scalable=no',
+  viewport:
+    'width=device-width, height=device-height, initial-scale:1, user-scalable=no',
 }
 
 export default function RootLayout({
