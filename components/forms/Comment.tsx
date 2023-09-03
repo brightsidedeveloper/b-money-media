@@ -24,11 +24,16 @@ import { useState } from 'react'
 interface Props {
   threadId: string
   currentUserImg: string
-  crowned?: boolean
+  abilities?: string[]
   currentUserId: string
 }
 
-function Comment({ threadId, currentUserImg, crowned, currentUserId }: Props) {
+function Comment({
+  threadId,
+  currentUserImg,
+  abilities,
+  currentUserId,
+}: Props) {
   const [loading, setLoading] = useState(false)
   const pathname = usePathname()
 
@@ -66,14 +71,24 @@ function Comment({ threadId, currentUserImg, crowned, currentUserId }: Props) {
             <FormItem className='flex w-full items-center gap-3'>
               <FormLabel>
                 <div className='relative'>
-                  {crowned && (
+                  {abilities?.includes('party-hat') ? (
                     <Image
-                      src='/assets/crown.png'
+                      src='/assets/party-hat.png'
                       alt='crown'
                       width={24}
                       height={24}
-                      className='rotate-[20deg] absolute -top-3 right-0 z-10'
+                      className='rotate-[20deg] absolute -top-5 right-0 z-10'
                     />
+                  ) : (
+                    abilities?.includes('crown') && (
+                      <Image
+                        src='/assets/crown.png'
+                        alt='crown'
+                        width={24}
+                        height={24}
+                        className='rotate-[20deg] absolute -top-3 right-0 z-10'
+                      />
+                    )
                   )}
                   <Image
                     src={currentUserImg}
