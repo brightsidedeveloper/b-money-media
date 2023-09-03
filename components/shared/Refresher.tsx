@@ -52,12 +52,11 @@ export default function Refresher({
           case '/wip':
             return router.push('/profile')
           default:
-            return
         }
       }
 
       // Swipe Right
-      if (touchEndX > touchStartX) {
+      else if (touchEndX > touchStartX) {
         switch (pathname) {
           case '/profile':
             return router.push('/wip')
@@ -68,7 +67,6 @@ export default function Refresher({
           case '/search':
             return router.push('/')
           default:
-            return
         }
       }
     }
