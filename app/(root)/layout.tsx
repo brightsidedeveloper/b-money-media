@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     startupImage: [
       '/appleSplash/X2.png',
       {
-        url: '/appleSplash/X2.png',
+        url: '/appleSplash/iphone12max.png',
         media: '(device-width: 1284px) and (device-height: 2778px)',
       },
     ],
