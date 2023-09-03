@@ -7,7 +7,7 @@ export default function page() {
       <div className='text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600'>
         <TypewriterComponent
           options={{
-            strings: process.env.PG
+            strings: process.env.NEXT_PUBLIC_PG
               ? [
                   'What if you could...',
                   'do anything?',
