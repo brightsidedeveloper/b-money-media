@@ -44,7 +44,7 @@ function ProfileHeader({
                 className='rotate-[20deg] absolute -top-8 right-0 z-10'
               />
             ) : (
-              crowned && (
+              abilities?.includes('crown') && (
                 <Image
                   src='/assets/crown.png'
                   alt='crown'
@@ -73,7 +73,6 @@ function ProfileHeader({
           {isAdmin && type !== 'Community' && (
             <>
               <Abilities username={username} path={path} />
-              <CrownUser username={username} crowned={crowned} path={path} />
             </>
           )}
           {accountId === authUserId && type !== 'Community' && (

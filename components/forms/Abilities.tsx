@@ -20,6 +20,7 @@ export default function Abilities({
       >
         <option value='gold-text'>Gold Text</option>
         <option value='party-hat'>Party Hat</option>
+        <option value='crown'>Crown</option>
       </select>
       <button
         onClick={() => promoteAbility(username, selectValue, true, path || '/')}

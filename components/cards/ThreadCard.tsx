@@ -68,7 +68,7 @@ function ThreadCard({
                   className='rotate-[20deg] absolute -top-5 right-0 z-10'
                 />
               ) : (
-                author.verified && (
+                author.abilities?.includes('crown') && (
                   <Image
                     src='/assets/crown.png'
                     alt='crown'
