@@ -6,6 +6,7 @@ import LeftSidebar from '@/components/shared/LeftSidebar'
 import Bottombar from '@/components/shared/Bottombar'
 import RightSidebar from '@/components/shared/RightSidebar'
 import Topbar from '@/components/shared/Topbar'
+import SwipeProvider from '@/components/providers/SwipeProvider'
 
 export const metadata: Metadata = {
   title: 'X2 | Better than Meta',
@@ -19,6 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <>
+      <SwipeProvider />
       <Topbar />
 
       <main className='flex flex-row'>
