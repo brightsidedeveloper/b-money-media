@@ -90,13 +90,14 @@ function Comment({
                       />
                     )
                   )}
-                  <Image
-                    src={currentUserImg}
-                    alt='current_user'
-                    width={48}
-                    height={48}
-                    className='rounded-full cover object-cover'
-                  />
+                  <div className='relative h-11 w-11'>
+                    <Image
+                      src={currentUserImg}
+                      alt='current_user'
+                      fill
+                      className='rounded-full object-cover'
+                    />
+                  </div>
                 </div>
               </FormLabel>
               <FormControl className='border-none bg-transparent'>
