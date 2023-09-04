@@ -1,8 +1,14 @@
-import { SignedIn, SignOutButton } from '@clerk/nextjs'
+import { fetchUser } from '@/lib/actions/user.actions'
+import { currentUser, SignedIn, SignOutButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
 
-function Topbar() {
+async function Topbar() {
+  const user = await currentUser()
+  if (!user) return null
+  const userInfo = await fetchUser(user.id)
+  if (!userInfo?.admin) return null
+
   return (
     <nav className='topbar'>
       <Link href='/' className='flex items-center gap-4'>
@@ -12,16 +18,21 @@ function Topbar() {
       <div className='flex items-center gap-1'>
         <div className='block md:hidden'>
           <SignedIn>
-            <SignOutButton>
-              <div className='flex cursor-pointer'>
-                <Image
-                  src='/assets/logout.svg'
-                  alt='logout'
-                  width={24}
-                  height={24}
-                />
-              </div>
-            </SignOutButton>
+            <div className='flex items-center gap-4'>
+              <Link href='/admin'>
+                <p className='text-light-1'>Admin</p>
+              </Link>
+              <SignOutButton>
+                <div className='flex cursor-pointer'>
+                  <Image
+                    src='/assets/logout.svg'
+                    alt='logout'
+                    width={24}
+                    height={24}
+                  />
+                </div>
+              </SignOutButton>
+            </div>
           </SignedIn>
         </div>
       </div>

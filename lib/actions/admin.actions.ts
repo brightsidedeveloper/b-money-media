@@ -60,3 +60,52 @@ export async function promoteAbility(
     console.error(err)
   }
 }
+
+export async function awardClown() {
+  connectToDB()
+
+  try {
+    const users = (await User.find()) || []
+
+    // Identify clown with most clowns
+    let largestClownCount = 0
+    let largestClownCountUser: any
+    await Promise.all(
+      users.map(async user => {
+        const clownCount = user.clownCount || []
+
+        if (clownCount.length > largestClownCount) {
+          largestClownCount = clownCount.length
+          largestClownCountUser = user
+        }
+      })
+    )
+
+    // Remove all clowns
+    await Promise.all(
+      users.map(async user => {
+        const abilities = user.abilities || []
+        abilities.splice(abilities.indexOf('clown'), 1)
+
+        await User.findOneAndUpdate(
+          { username: user.username },
+          { $set: { clownCount: [], abilities } },
+          { upsert: true }
+        )
+      })
+    )
+
+    if (!largestClownCountUser) return
+
+    // Award clown
+    await User.findOneAndUpdate(
+      { username: largestClownCountUser.username },
+      { $push: { abilities: 'clown' } },
+      { upsert: true }
+    )
+
+    revalidatePath('/')
+  } catch (err: any) {
+    console.error(err)
+  }
+}
