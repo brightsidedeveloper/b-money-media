@@ -72,7 +72,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
       await updateUser({
         name: values.name,
         path: pathname,
-        username: values.username,
+        username: values.username.replaceAll(' ', ''),
         userId: user.id,
         bio: values.bio,
         image: values.profile_photo,
