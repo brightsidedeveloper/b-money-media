@@ -65,7 +65,7 @@ export async function awardClown() {
   connectToDB()
 
   try {
-    const users = (await User.find()) || []
+    const users = await User.find()
 
     // Identify clown with most clowns
     let largestClownCount = 0
@@ -104,7 +104,7 @@ export async function awardClown() {
       { upsert: true }
     )
 
-    revalidatePath('/')
+    revalidatePath('/admin')
   } catch (err: any) {
     console.error(err)
   }
