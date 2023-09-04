@@ -241,7 +241,6 @@ export async function likePost(
 
   try {
     // Find the original thread by its ID
-    //Add like to the original thread
     const it = clown ? { clowns: userId } : { likes: userId }
     const originalThread = await Thread.findByIdAndUpdate(
       threadId,
@@ -249,17 +248,22 @@ export async function likePost(
         $push: it,
       },
       { upsert: true }
-    ).populate({
-      path: 'author',
-      model: User,
-    })
+    )
 
-    if (clown)
-      await User.findOneAndUpdate(
-        { id: originalThread.author.id },
-        { $push: { clownCount: 1 } },
-        { upsert: true }
+    if (clown) {
+      // Find @ed users
+      await Promise.all(
+        originalThread.ats.forEach(async (at: string) => {
+          const user = JSON.parse(at)
+          if (!user) return
+          await User.findOneAndUpdate(
+            { id: user.id },
+            { $push: { clownCount: 1 } },
+            { upsert: true }
+          )
+        })
       )
+    }
 
     revalidatePath(path)
   } catch (err) {
