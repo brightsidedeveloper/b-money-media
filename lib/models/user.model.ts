@@ -41,6 +41,7 @@ const userSchema = new mongoose.Schema({
     },
   ],
   abilities: [String],
+  clownCount: [Number]
 })
 
 const User = mongoose.models?.User || mongoose.model('User', userSchema)

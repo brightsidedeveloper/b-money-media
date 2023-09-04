@@ -31,6 +31,8 @@ interface Props {
   isComment?: boolean
   liked: boolean
   likes: number
+  clowned: boolean
+  clowns: number
 }
 
 function ThreadCard({
@@ -45,6 +47,8 @@ function ThreadCard({
   isComment,
   likes,
   liked,
+  clowns,
+  clowned
 }: Props) {
   return (
     <article
@@ -145,6 +149,13 @@ function ThreadCard({
                     {comments?.length || 0}
                   </p>
                 </Link>
+                <LikePost
+                  threadId={JSON.stringify(id)}
+                  userId={JSON.stringify(uid)}
+                  liked={clowned}
+                  count={clowns}
+                  clown
+                />
                 {/* <Image
                   src='/assets/repost.svg'
                   alt='heart'

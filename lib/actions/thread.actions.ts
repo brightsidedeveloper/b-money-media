@@ -218,16 +218,23 @@ export async function addCommentToThread(
   }
 }
 
-export async function likePost(threadId: string, userId: string, path: string) {
+export async function likePost(threadId: string, userId: string, path: string, clown?: boolean) {
   connectToDB()
 
   try {
     // Find the original thread by its ID
-
     //Add like to the original thread
+    const it = clown ? { clowns: userId } : { likes: userId }
     const originalThread = await Thread.findByIdAndUpdate(threadId, {
-      $push: { likes: userId },
-    })
+      $push: it},
+      {upsert: true}
+      ).populate({
+        path: 'author',
+        model: User,
+      })
+      
+    if (clown) await User.findOneAndUpdate({ id: originalThread.author.id }, { $push: { clownCount: 1 } }, {upsert: true})
+      
 
     revalidatePath(path)
   } catch (err) {

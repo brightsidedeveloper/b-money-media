@@ -15,6 +15,11 @@ const threadSchema = new mongoose.Schema({
       type: String,
     },
   ],
+  clowns: [
+    {
+      type: String,
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now,

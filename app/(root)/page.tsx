@@ -49,7 +49,9 @@ async function Home({
                   createdAt={post.createdAt}
                   comments={post.children}
                   liked={post.likes?.includes(userInfo._id)}
-                  likes={post.likes?.length}
+                  likes={post.likes?.length || 0}
+                  clowned={post.clowns?.includes(userInfo._id)}
+                  clowns={post.clowns?.length || 0}
                 />
               )
             })}
