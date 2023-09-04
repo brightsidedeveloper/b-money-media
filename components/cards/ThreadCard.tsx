@@ -129,7 +129,7 @@ function ThreadCard({
             >
               {content
                 .match(
-                  /(\s+|@[a-zA-Z0-9_]+|#\w+|[\w$%&!'"(){}/?.~`,|;:+=\[\]<>^\\*\-_]+|[\uD800-\uDBFF][\uDC00-\uDFFF])/g
+                  /(\s+|@[a-zA-Z0-9_]+|#\w+|[\w$%&!'"(){}/?.~`,|;:+=\[\]<>^\\*\-_]+|[\uD800-\uDBFF][\uDC00-\uDFFF]|.)/g
                 )
                 ?.map((word, index) => {
                   if (word.startsWith('#')) {
