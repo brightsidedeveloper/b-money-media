@@ -85,7 +85,8 @@ export async function awardClown() {
     await Promise.all(
       users.map(async user => {
         const abilities = user.abilities || []
-        abilities.splice(abilities.indexOf('clown'), 1)
+        if (abilities.includes('clown'))
+          abilities.splice(abilities.indexOf('clown'), 1)
 
         await User.findOneAndUpdate(
           { username: user.username },
