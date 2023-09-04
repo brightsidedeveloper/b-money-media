@@ -28,7 +28,7 @@ export default function LandingNavbar() {
         </h1>
       </Link>
       <div className='flex items-center gap-x-2'>
-        <Link href={isSignedIn ? '/dashboard' : '/sign-up'}>
+        <Link href={isSignedIn ? '/' : '/sign-up'}>
           <Button className='rounded-full bg-[#d26cbf] text-white'>
             Get Started
           </Button>

@@ -30,6 +30,7 @@ async function Page({ params }: { params: { id: string } }) {
         isAdmin={isAdmin}
         crowned={userInfo.verified}
         path={`/profile/${params.id}`}
+        clownCount={userInfo.clownCount?.length || 0}
       />
 
       <section className='mt-9 flex flex-col gap-10'>
@@ -52,7 +53,9 @@ async function Page({ params }: { params: { id: string } }) {
             createdAt={thread.createdAt}
             comments={thread.children}
             liked={thread.likes?.includes(userInfo._id)}
-            likes={thread.likes?.length}
+            likes={thread.likes?.length || 0}
+            clowned={thread.clowns?.includes(userInfo._id)}
+            clowns={thread.clowns?.length || 0}
           />
         ))}
       </section>
