@@ -253,7 +253,7 @@ export async function likePost(
     if (clown) {
       // Find @ed users
       await Promise.all(
-        originalThread.ats.forEach(async (at: string) => {
+        originalThread.ats?.forEach(async (at: string) => {
           const user = JSON.parse(at)
           if (!user) return
           await User.findOneAndUpdate(
@@ -261,7 +261,7 @@ export async function likePost(
             { $push: { clownCount: 1 } },
             { upsert: true }
           )
-        })
+        }) || []
       )
     }
 
