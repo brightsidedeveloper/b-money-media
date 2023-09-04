@@ -110,6 +110,9 @@ function Comment({
                   type='text'
                   {...field}
                   placeholder='Comment...'
+                  autoComplete='off'
+                  autoCapitalize='off'
+                  autoCorrect='off'
                   className='no-focus text-light-1 outline-none'
                 />
               </FormControl>
