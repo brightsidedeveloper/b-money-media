@@ -29,7 +29,7 @@ function ProfileHeader({
   type,
   isAdmin,
   path,
-  clownCount
+  clownCount,
 }: Props) {
   return (
     <div className='flex w-full flex-col justify-start'>
@@ -79,10 +79,14 @@ function ProfileHeader({
         </div>
         <div className='flex gap-2'>
           {isAdmin && <Abilities username={username} path={path} />}
-          <div className='flex flex-col items-center justify-center'>
-            <p className='text-center text-base-medium text-gray-1'>Clowns</p>
-            <p className='text-center text-base-semibold text-light-1'>{clownCount}</p>
-          </div>
+          {clownCount > 0 && (
+            <div className='flex flex-col items-center justify-center'>
+              <p className='text-center text-base-medium text-gray-1'>Clowns</p>
+              <p className='text-center text-base-semibold text-light-1'>
+                {clownCount}
+              </p>
+            </div>
+          )}
           {accountId === authUserId && type !== 'Community' && (
             <Link href='/profile/edit'>
               <div className='flex cursor-pointer gap-3 rounded-lg bg-dark-3 px-4 py-2'>
