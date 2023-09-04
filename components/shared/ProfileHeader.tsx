@@ -33,6 +33,8 @@ function ProfileHeader({
 }: Props) {
   return (
     <div className='flex w-full flex-col justify-start'>
+      {isAdmin && <Abilities username={username} path={path} />}
+
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-3'>
           <div className='relative h-20 w-20 object-cover'>
@@ -78,7 +80,6 @@ function ProfileHeader({
           </div>
         </div>
         <div className='flex gap-2'>
-          {isAdmin && <Abilities username={username} path={path} />}
           {clownCount > 0 && (
             <div className='flex flex-col items-center justify-center'>
               <p className='text-center text-base-medium text-gray-1'>Clowns</p>

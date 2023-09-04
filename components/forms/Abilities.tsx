@@ -13,7 +13,8 @@ export default function Abilities({
   const [selectValue, setSelectValue] = useState<string>('gold-text')
 
   return (
-    <div className='flex gap-1 p-1'>
+    <div className='flex items-center gap-1 p- mx-auto w-fit -mt-8 mb-12'>
+      <p className='text-light-1'>Admin Actions: </p>
       <select
         value={selectValue}
         onChange={e => setSelectValue(e.target.value)}
