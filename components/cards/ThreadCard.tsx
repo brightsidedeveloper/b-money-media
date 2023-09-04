@@ -164,13 +164,15 @@ function ThreadCard({
                     {comments?.length || 0}
                   </p>
                 </Link>
-                <LikePost
-                  threadId={JSON.stringify(id)}
-                  userId={JSON.stringify(uid)}
-                  liked={clowned}
-                  count={clowns}
-                  clown
-                />
+                {content.includes('#clown') && content.includes('@') && (
+                  <LikePost
+                    threadId={JSON.stringify(id)}
+                    userId={JSON.stringify(uid)}
+                    liked={clowned}
+                    count={clowns}
+                    clown
+                  />
+                )}
                 {/* <Image
                   src='/assets/repost.svg'
                   alt='heart'
