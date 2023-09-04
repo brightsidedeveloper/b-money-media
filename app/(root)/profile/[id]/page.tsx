@@ -42,6 +42,7 @@ async function Page({ params }: { params: { id: string } }) {
             currentUserId={user.id}
             parentId={thread.parentId}
             content={thread.text}
+            ats={thread.ats}
             author={{
               name: result.name,
               image: result.image,

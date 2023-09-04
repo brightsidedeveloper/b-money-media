@@ -45,6 +45,7 @@ async function Home({
                   currentUserId={user.id}
                   parentId={post.parentId}
                   content={post.text}
+                  ats={post.ats}
                   author={post.author}
                   createdAt={post.createdAt}
                   comments={post.children}

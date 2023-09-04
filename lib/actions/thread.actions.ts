@@ -58,9 +58,22 @@ export async function createThread({ text, author, path }: Params) {
   try {
     connectToDB()
 
+    const ats = text.match(/@\w+/g) || []
+
+    const userAts = await Promise.all(
+      ats.map(async (at: string) => {
+        const user = await User.findOne({ username: at.slice(1) }).select(
+          '_id id username'
+        )
+        if (!user) return ''
+        return JSON.stringify(user)
+      })
+    )
+
     const createdThread = await Thread.create({
       text,
       author,
+      ats: userAts.filter(data => data !== ''),
     })
 
     // Update User model
@@ -218,23 +231,35 @@ export async function addCommentToThread(
   }
 }
 
-export async function likePost(threadId: string, userId: string, path: string, clown?: boolean) {
+export async function likePost(
+  threadId: string,
+  userId: string,
+  path: string,
+  clown?: boolean
+) {
   connectToDB()
 
   try {
     // Find the original thread by its ID
     //Add like to the original thread
     const it = clown ? { clowns: userId } : { likes: userId }
-    const originalThread = await Thread.findByIdAndUpdate(threadId, {
-      $push: it},
-      {upsert: true}
-      ).populate({
-        path: 'author',
-        model: User,
-      })
-      
-    if (clown) await User.findOneAndUpdate({ id: originalThread.author.id }, { $push: { clownCount: 1 } }, {upsert: true})
-      
+    const originalThread = await Thread.findByIdAndUpdate(
+      threadId,
+      {
+        $push: it,
+      },
+      { upsert: true }
+    ).populate({
+      path: 'author',
+      model: User,
+    })
+
+    if (clown)
+      await User.findOneAndUpdate(
+        { id: originalThread.author.id },
+        { $push: { clownCount: 1 } },
+        { upsert: true }
+      )
 
     revalidatePath(path)
   } catch (err) {

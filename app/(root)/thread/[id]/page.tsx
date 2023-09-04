@@ -32,12 +32,13 @@ async function page({ params }: { params: { id: string } }) {
           parentId={thread.parentId}
           content={thread.text}
           author={thread.author}
+          ats={thread.ats}
           createdAt={thread.createdAt}
           comments={thread.children}
           liked={thread?.likes?.includes(userInfo._id)}
           likes={thread.likes.length || 0}
           clowned={thread.clowns?.includes(userInfo._id)}
-                  clowns={thread.clowns?.length || 0}
+          clowns={thread.clowns?.length || 0}
         />
       </div>
 
@@ -60,12 +61,13 @@ async function page({ params }: { params: { id: string } }) {
             parentId={childItem.parentId}
             content={childItem.text}
             author={childItem.author}
+            ats={childItem.ats}
             createdAt={childItem.createdAt}
             comments={childItem.children}
             liked={childItem?.likes?.includes(userInfo._id)}
             likes={childItem.likes?.length || 0}
             clowned={childItem.clowns?.includes(userInfo._id)}
-                  clowns={childItem.clowns?.length || 0}
+            clowns={childItem.clowns?.length || 0}
             isComment
           />
         ))}

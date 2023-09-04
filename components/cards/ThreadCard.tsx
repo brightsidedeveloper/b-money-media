@@ -20,7 +20,7 @@ interface Props {
     id: string
     abilities: string[]
   }
-
+  ats?: string[]
   createdAt: string
   comments: {
     author: {
@@ -42,13 +42,14 @@ function ThreadCard({
   parentId,
   content,
   author,
+  ats,
   createdAt,
   comments,
   isComment,
   likes,
   liked,
   clowns,
-  clowned
+  clowned,
 }: Props) {
   return (
     <article
@@ -126,7 +127,21 @@ function ThreadCard({
                   : author.abilities?.includes('gold-text') && 'text-yellow-400'
               }`}
             >
-              {content}
+              {content.match(/(\s+|@\w+|\w+)/g)?.map((word, index) => {
+                if (word.startsWith('@')) {
+                  const found = ats?.find(at => at.includes(word.slice(1)))
+                  if (!found) return word
+                  const userData = JSON.parse(found)
+                  return (
+                    <Link href={`/profile/${userData.id}`} key={index}>
+                      <span className='cursor-pointer text-primary-500'>
+                        {word}
+                      </span>
+                    </Link>
+                  )
+                }
+                return word
+              })}
             </p>
 
             <div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>

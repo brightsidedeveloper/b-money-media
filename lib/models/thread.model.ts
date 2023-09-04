@@ -10,6 +10,7 @@ const threadSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  ats: [String],
   likes: [
     {
       type: String,
@@ -18,7 +19,7 @@ const threadSchema = new mongoose.Schema({
   clowns: [
     {
       type: String,
-    }
+    },
   ],
   createdAt: {
     type: Date,
