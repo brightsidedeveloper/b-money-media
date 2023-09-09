@@ -254,3 +254,8 @@ html, body, :root {
     opacity: 0;
   }
 }
+
+.lk-chat {
+  top: 48px !important;
+  bottom: 100px !important;
+}

@@ -13,6 +13,7 @@ interface MediaRoomProps {
 
 export default function MediaRoom({ user, video, audio }: MediaRoomProps) {
   const [token, setToken] = useState('')
+  const [error, setError] = useState('')
 
   const safeRoom = process.env.NEXT_PUBLIC_PG
 
@@ -29,11 +30,19 @@ export default function MediaRoom({ user, video, audio }: MediaRoomProps) {
         const data = await res.json()
 
         setToken(data.token)
-      } catch (error) {
+      } catch (error: any) {
         console.log(error)
+        setError(error?.message || error)
       }
     })()
   }, [chatId, user?.name])
+
+  if (error)
+    return (
+      <div className='flex flex-col flex-1 justify-center items-center'>
+        <p className=' text-zinc-500 '>{error}</p>
+      </div>
+    )
 
   if (!token)
     return (
