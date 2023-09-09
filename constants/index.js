@@ -20,9 +20,9 @@ export const sidebarLinks = [
     label: 'Create Thread',
   },
   {
-    imgURL: '/assets/question.svg',
-    route: '/wip',
-    label: 'WIP',
+    imgURL: '/assets/video.svg',
+    route: '/live-chat',
+    label: 'Live',
   },
   {
     imgURL: '/assets/user.svg',
