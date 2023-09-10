@@ -266,8 +266,5 @@ html, body, :root {
 }
 
 .lk-control-bar {
-  position: fixed !important;
-  bottom: 0;
-  left: 0px;
-  right: 0px;
+  @apply pb-8 bg-dark-2 !important;
 }
