@@ -46,7 +46,7 @@ export default function MediaRoom({ user, video, audio }: MediaRoomProps) {
 
   if (!token)
     return (
-      <div className='flex flex-col flex-1 justify-center items-center'>
+      <div className='flex h-full w-full flex-col flex-1 justify-center items-center'>
         <Loader2 className='w-10 h-10 text-zinc-500 animate-spin my-4' />
         <p className=' text-zinc-500 '>Loading...</p>
       </div>

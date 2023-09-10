@@ -259,3 +259,15 @@ html, body, :root {
   top: 48px !important;
   bottom: 100px !important;
 }
+
+.lk-grid-layout {
+  max-height: 68% !important;
+  max-width: 64% !important;
+}
+
+.lk-control-bar {
+  position: fixed !important;
+  bottom: 0;
+  left: 0px;
+  right: 0px;
+}
