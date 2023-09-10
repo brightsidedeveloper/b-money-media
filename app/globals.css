@@ -255,15 +255,9 @@ html, body, :root {
   }
 }
 
-.lk-chat {
-  top: 48px !important;
-  bottom: 100px !important;
-}
 
-.lk-grid-layout {
-  max-height: 68% !important;
-  max-width: 64% !important;
-}
+
+
 
 .lk-control-bar {
   @apply pb-8 bg-dark-2 !important;
