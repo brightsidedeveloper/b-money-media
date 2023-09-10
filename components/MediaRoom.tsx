@@ -23,7 +23,7 @@ export default function MediaRoom({ user, video, audio }: MediaRoomProps) {
 
   useEffect(() => {
     let name = 'Anonymous'
-    if (user?.name) name = user.name
+    if (user.username) name = user.username
     ;(async () => {
       try {
         const res = await fetch(`/api/livekit?room=${chatId}&username=${name}`)
@@ -35,7 +35,7 @@ export default function MediaRoom({ user, video, audio }: MediaRoomProps) {
         setError(error?.message || error)
       }
     })()
-  }, [chatId, user?.name])
+  }, [chatId, user?.name, user.username])
 
   if (error)
     return (
