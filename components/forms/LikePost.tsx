@@ -3,7 +3,7 @@ import { likePost } from "@/lib/actions/thread.actions"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 interface LikePostProps {
   threadId: string
@@ -23,6 +23,10 @@ export default function LikePost({
   const path = usePathname()
   const [optimisicLike, setOptimisticLike] = useState(false)
 
+  useEffect(() => {
+    setOptimisticLike(false)
+  }, [count, liked])
+
   const like = async () => {
     setOptimisticLike(true)
     await likePost(JSON.parse(threadId), JSON.parse(userId), path, clown)
@@ -31,13 +35,18 @@ export default function LikePost({
   return (
     <button
       className="flex flex-col justify-center items-center "
-      disabled={liked}
+      disabled={liked || optimisicLike}
       onClick={like}
     >
       {clown ? (
         <span
-          className={cn("w-6 h-6", !liked && !optimisicLike && 'grayscale opacity-50' )}
-        >🤡</span>
+          className={cn(
+            "w-6 h-6",
+            !liked && !optimisicLike && "grayscale opacity-50"
+          )}
+        >
+          🤡
+        </span>
       ) : (
         <Image
           src={
@@ -52,7 +61,7 @@ export default function LikePost({
         />
       )}
       <p className="text-subtle-semibold text-center mx-auto text-gray-1">
-        {count}
+        {optimisicLike ? count + 1 : count}
       </p>
     </button>
   )
