@@ -57,5 +57,8 @@
     "uploadthing": "^5.2.0",
     "web-push": "^3.6.5",
     "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/web-push": "^3.6.0"
   }
 }
