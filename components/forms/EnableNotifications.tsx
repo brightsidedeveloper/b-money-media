@@ -2,7 +2,8 @@
 
 import useHydrated from "@/hooks/useHydrated"
 import { urlB64ToUint8Array } from "@/lib/utils"
-import { Bell, BellMinus } from "lucide-react"
+import { Bell, BellMinus, X } from "lucide-react"
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
@@ -10,6 +11,13 @@ export default function EnableNotifications() {
   const [status, setStatus] = useState(
     typeof Notification === "undefined" ? null : Notification.permission
   )
+
+  useEffect(() => {
+    if (status === "default")
+      toast("Click the Bell Icon to enable notifications", {
+        icon: "🔔",
+      })
+  }, [])
 
   useEffect(() => {
     ;(async () => {
@@ -53,7 +61,21 @@ export default function EnableNotifications() {
     return (
       <>
         {!status ? (
-          <p className="text-white">Please Add App to Homescreen</p>
+          <div className="fixed inset-0 bg-white z-50">
+            <Image
+              src="/add-to-home.png"
+              alt="add to home"
+              width={500}
+              height={500}
+              className="fixed top-0"
+            />
+            <button
+              className="absolute z-10 top-2 right-2"
+              onClick={() => setStatus("denied")}
+            >
+              <X className="w-5 h-5 text-black" />
+            </button>
+          </div>
         ) : status === "denied" ? (
           <BellMinus className="w-5 h-5 text-white" />
         ) : status === "granted" ? null : (
