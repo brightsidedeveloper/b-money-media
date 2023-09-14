@@ -94,7 +94,7 @@ export async function createThread({ text, author, path }: Params) {
             body: text,
             tag: createdThread._id,
             data: {
-              url: `/thread/${createdThread._id}`,
+              url: `${process.env.NEXT_PUBLIC_SITE_URL}/thread/${createdThread._id}`,
             },
           },
         })
@@ -247,7 +247,7 @@ export async function addCommentToThread(
           body: commentText,
           tag: originalThread._id,
           data: {
-            url: `/thread/${originalThread._id}`,
+            url: `${process.env.NEXT_PUBLIC_SITE_URL}/thread/${originalThread._id}`,
           },
         },
       })
@@ -293,7 +293,7 @@ export async function likePost(
             body: originalThread.text,
             tag: originalThread._id,
             data: {
-              url: `/thread/${originalThread._id}`,
+              url: `${process.env.NEXT_PUBLIC_SITE_URL}/thread/${originalThread._id}`,
             },
           },
         })
@@ -318,7 +318,7 @@ export async function likePost(
                 body: `on @${originalThread.author?.username}'s post`,
                 tag: originalThread._id,
                 data: {
-                  url: `/thread/${originalThread._id}`,
+                  url: `${process.env.NEXT_PUBLIC_SITE_URL}/thread/${originalThread._id}`,
                 },
               },
             })
@@ -338,7 +338,7 @@ export async function likePost(
             body: originalThread.text,
             tag: originalThread._id,
             data: {
-              url: `/thread/${originalThread._id}`,
+              url: `${process.env.NEXT_PUBLIC_SITE_URL}/thread/${originalThread._id}`,
             },
           },
         })
