@@ -37,8 +37,8 @@ export async function crownUser(
 }
 
 const vapidKeys = {
-  publicKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
-  privateKey: process.env.VAPID_PRIVATE_KEY
+  publicKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || '',
+  privateKey: process.env.VAPID_PRIVATE_KEY  || '',
 }
 
 const sendNotification = async (subscription: any, dataToSend: any) => {

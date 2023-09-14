@@ -6,7 +6,6 @@ import { revalidatePath } from 'next/cache'
 import Thread from '../models/thread.model'
 import User from '../models/user.model'
 import { connectToDB } from '../mongoose'
-import { currentUser } from '@clerk/nextjs'
 
 export async function fetchUser(userId: string) {
   try {
