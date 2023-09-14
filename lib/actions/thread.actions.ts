@@ -59,14 +59,19 @@ export async function createThread({ text, author, path }: Params) {
   try {
     connectToDB()
 
+    const sender = await User.findById(author)
+
     const ats = text.match(/@\w+/g) || []
 
+    const atedUsers: any[] = []
     const userAts = await Promise.all(
       ats.map(async (at: string) => {
         const user = await User.findOne({ username: at.slice(1) }).select(
-          '_id id username'
+          '_id id username subscription'
         )
+
         if (!user) return ''
+        atedUsers.push(user)
         return JSON.stringify(user)
       })
     )
@@ -77,10 +82,22 @@ export async function createThread({ text, author, path }: Params) {
       ats: userAts.filter(data => data !== ''),
     })
 
-    // Update User model
-    await User.findByIdAndUpdate(author, {
-      $push: { threads: createdThread._id },
+    atedUsers.forEach(async (user: any) => {
+      if (user.subscription && user.id !== sender.id) {
+        await sendNotification(user.subscription, {
+          title: `@${sender.username} ${text.toLowerCase().includes('#clown') ? 'clowned' : 'mentioned'} you`,
+          options: {
+            body: text,
+            tag: createdThread._id,
+            data: {
+              url: `/${createdThread._id}`,
+            },
+          },
+        })
+      }
     })
+
+
 
     revalidatePath(path)
   } catch (error: any) {
