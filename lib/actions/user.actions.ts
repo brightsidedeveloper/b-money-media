@@ -6,9 +6,7 @@ import { revalidatePath } from 'next/cache'
 import Thread from '../models/thread.model'
 import User from '../models/user.model'
 import { connectToDB } from '../mongoose'
-
-// import { Knock } from '@knocklabs/node'
-// const knock = new Knock(process.env.KNOCK_SECRET_KEY)
+import { currentUser } from '@clerk/nextjs'
 
 export async function fetchUser(userId: string) {
   try {
@@ -22,7 +20,7 @@ export async function fetchUser(userId: string) {
 
     return user
   } catch (error: any) {
-    throw new Error(`Failed to fetch user: ${error.message}`)
+    throw new Error(`Failed to fetch user: ${error?.message}`)
   }
 }
 

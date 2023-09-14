@@ -1,5 +1,6 @@
 'use server'
 
+import webpush from 'web-push'
 import { revalidatePath } from 'next/cache'
 import User from '../models/user.model'
 import { connectToDB } from '../mongoose'
@@ -32,6 +33,37 @@ export async function crownUser(
     revalidatePath(path)
   } catch (err: any) {
     console.error(err)
+  }
+}
+
+const vapidKeys = {
+  publicKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
+  privateKey: process.env.VAPID_PRIVATE_KEY
+}
+
+const sendNotification = async (subscription: any, dataToSend: any) => {
+  webpush.setVapidDetails(
+    'mailto:timvan0118@gmail.com',
+    vapidKeys.publicKey,
+    vapidKeys.privateKey
+  )
+  webpush.sendNotification(subscription, JSON.stringify(dataToSend))
+}
+
+export async function sendGlobalMessage(title: string, body: string, options?: any ) {
+  try { 
+    connectToDB()
+
+    const users = await User.find()
+    users.forEach(async user => {
+      if (!user.subscription) return
+      await sendNotification(user.subscription, { title, options: { body, ...options} })
+    })
+
+    return {}
+  } catch (err: any) {
+    console.error(err)
+    return { error: err.message}
   }
 }
 

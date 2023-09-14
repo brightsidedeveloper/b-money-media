@@ -2,6 +2,7 @@ import { fetchUser } from '@/lib/actions/user.actions'
 import { currentUser, SignedIn, SignOutButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
+import EnableNotifications from '../forms/EnableNotifications'
 
 async function Topbar() {
   const user = await currentUser()
@@ -22,6 +23,8 @@ async function Topbar() {
               <Link href='/admin'>
                 <p className='text-light-1'>Admin</p>
               </Link>
+              <div className='flex gap-4 item-center'>
+                <EnableNotifications />
               <SignOutButton>
                 <div className='flex cursor-pointer'>
                   <Image
@@ -31,7 +34,7 @@ async function Topbar() {
                     height={24}
                   />
                 </div>
-              </SignOutButton>
+              </SignOutButton></div>
             </div>
           </SignedIn>
         </div>

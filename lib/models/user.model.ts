@@ -41,7 +41,10 @@ const userSchema = new mongoose.Schema({
     },
   ],
   abilities: [String],
-  clownCount: [Number]
+  clownCount: [Number],
+  subscription: {
+    type: Object
+  }
 })
 
 const User = mongoose.models?.User || mongoose.model('User', userSchema)
