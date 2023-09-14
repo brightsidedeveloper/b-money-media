@@ -43,8 +43,8 @@ export default function EnableNotifications() {
       const { error, user } = await res.json()
       console.log(user)
       if (error) return toast.error(error)
-      reg.showNotification("Successfully Subscribed", {
-        body: "You will now recieve notifications!",
+      reg.showNotification("Notifications Activated", {
+        body: "Welcome to the future of X2 - More coming...!",
       })
     }
   }
@@ -55,10 +55,10 @@ export default function EnableNotifications() {
         {!status ? (
           <p className="text-white">Please Add App to Homescreen</p>
         ) : status === "denied" ? (
-          <BellMinus className="w-4 h-4 text-white" />
+          <BellMinus className="w-5 h-5 text-white" />
         ) : status === "granted" ? null : (
           <button className="w-fit" onClick={onSubscribe}>
-            <Bell className="w-4 h-4 text-white" />
+            <Bell className="w-5 h-5 text-white" />
           </button>
         )}
       </>
