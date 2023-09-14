@@ -220,7 +220,7 @@ export async function addCommentToThread(
     const sender = await User.findById(userId)
     if (originalThread.author.subscription && originalThread.author.id !== sender.id) {
       await sendNotification(originalThread.author.subscription, {
-        title: `${sender.name} replied to your thread`,
+        title: `@${sender.username} replied to your thread`,
         options: {
           body: commentText,
           tag: originalThread._id,
@@ -277,9 +277,9 @@ export async function likePost(
           )
           if (dbUser.subscription && originalThread.author?.id !== userLiked.id) {
             await sendNotification(dbUser.subscription, {
-              title: `${userLiked.name} clown you`,
+              title: `@${userLiked.username} clown you`,
               options: {
-                body: `Clowned on ${originalThread.author?.name}'s post`,
+                body: `on @${originalThread.author?.username}'s post`,
                 tag: originalThread._id,
                 data: {
                   url: `/${originalThread._id}`,
@@ -294,7 +294,7 @@ export async function likePost(
 
       if (userLiked.subscription && originalThread.author?.id !== userLiked.id) {
         await sendNotification(originalThread.author?.subscription, {
-          title: `${userLiked.name} liked your post`,
+          title: `@${userLiked.username} liked your post`,
           options: {
             body: originalThread.text,
             tag: originalThread._id,
