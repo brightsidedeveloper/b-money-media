@@ -94,7 +94,7 @@ export async function createThread({ text, author, path }: Params) {
             body: text,
             tag: createdThread._id,
             data: {
-              url: `/threads/${createdThread._id}`,
+              url: `/thread/${createdThread._id}`,
             },
           },
         })

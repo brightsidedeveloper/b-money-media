@@ -14,3 +14,13 @@ self.addEventListener("push", function (event) {
     console.log("Push event but no data")
   }
 })
+
+self.addEventListener("notificationclick", function (event) {
+  event.notification.close() // Close the notification
+
+  // Get the URL from the data object
+  const urlToOpen = event.notification.data.url
+
+  // Open the URL in a new window/tab
+  event.waitUntil(clients.openWindow(urlToOpen))
+})
