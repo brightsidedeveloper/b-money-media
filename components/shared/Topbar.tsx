@@ -8,7 +8,6 @@ async function Topbar() {
   const user = await currentUser()
   if (!user) return null
   const userInfo = await fetchUser(user.id)
-  if (!userInfo?.admin) return null
 
   return (
     <nav className="topbar">
@@ -20,9 +19,11 @@ async function Topbar() {
         <div className="block md:hidden">
           <SignedIn>
             <div className="flex items-center gap-4">
-              <Link href="/admin">
-                <p className="text-light-1">Admin</p>
-              </Link>
+              {userInfo?.admin && (
+                <Link href="/admin">
+                  <p className="text-light-1">Admin</p>
+                </Link>
+              )}
               <div className="flex gap-6 item-center">
                 <EnableNotifications />
                 <SignOutButton>
