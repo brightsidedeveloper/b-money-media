@@ -255,21 +255,53 @@ export async function likePost(
         $push: it,
       },
       { upsert: true }
-    )
+    ).populate({
+      path: 'author',
+      model: User,
+    })
 
+
+
+    const userLiked = await User.findOne({ id: userId})
     if (clown) {
       // Find @ed users
+
       await Promise.all(
         originalThread.ats?.forEach(async (at: string) => {
           const user = JSON.parse(at)
           if (!user) return
-          await User.findOneAndUpdate(
+          const dbUser = await User.findOneAndUpdate(
             { id: user.id },
             { $push: { clownCount: 1 } },
             { upsert: true }
           )
+          if (dbUser.subscription && originalThread.author.id !== dbUser.id) {
+            await sendNotification(dbUser.subscription, {
+              title: `${userLiked.name} clown you`,
+              options: {
+                body: `Clowned on ${originalThread.author.name}'s post`,
+                tag: originalThread._id,
+                data: {
+                  url: `/${originalThread._id}`,
+                },
+              },
+            })
+          } 
         }) || []
       )
+    } else {
+      if (userLiked.subscription && originalThread.author.id !== userLiked.id) {
+        await sendNotification(originalThread.author.subscription, {
+          title: `${userLiked.name} liked your post`,
+          options: {
+            body: originalThread.text,
+            tag: originalThread._id,
+            data: {
+              url: `/${originalThread._id}`,
+            },
+          },
+        })
+      }
     }
 
     revalidatePath(path)
