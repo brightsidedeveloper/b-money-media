@@ -59,8 +59,6 @@ export async function createThread({ text, author, path }: Params) {
   try {
     connectToDB()
 
-    const sender = await User.findById(author)
-
     const ats = text.match(/@\w+/g) || []
 
     const atedUsers: any[] = []
@@ -82,6 +80,10 @@ export async function createThread({ text, author, path }: Params) {
       ats: userAts.filter(data => data !== ""),
     })
 
+    const sender = await User.findByIdAndUpdate(author, {
+      $push: { threads: createdThread._id },
+    })
+
     atedUsers.forEach(async (user: any) => {
       if (user.subscription && user.id !== sender.id) {
         await sendNotification(user.subscription, {
@@ -97,10 +99,6 @@ export async function createThread({ text, author, path }: Params) {
           },
         })
       }
-    })
-
-    await User.findByIdAndUpdate(author, {
-      $push: { threads: createdThread._id },
     })
 
     revalidatePath(path)
