@@ -99,6 +99,10 @@ export async function createThread({ text, author, path }: Params) {
       }
     })
 
+    await User.findByIdAndUpdate(author, {
+      $push: { threads: createdThread._id },
+    })
+
     revalidatePath(path)
   } catch (error: any) {
     throw new Error(`Failed to create thread: ${error.message}`)
