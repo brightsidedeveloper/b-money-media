@@ -22,12 +22,15 @@ export default function LikePost({
 }: LikePostProps) {
   const path = usePathname()
   const [optimisicLike, setOptimisticLike] = useState(false)
+  const [likeCount, setLikeCount] = useState(count)
 
   useEffect(() => {
     setOptimisticLike(false)
+    setLikeCount(count)
   }, [count, liked])
 
   const like = async () => {
+    setLikeCount(likeCount + 1)
     setOptimisticLike(true)
     await likePost(JSON.parse(threadId), JSON.parse(userId), path, clown)
   }
@@ -61,7 +64,7 @@ export default function LikePost({
         />
       )}
       <p className="text-subtle-semibold text-center mx-auto text-gray-1">
-        {optimisicLike ? count + 1 : count}
+        {likeCount}
       </p>
     </button>
   )
