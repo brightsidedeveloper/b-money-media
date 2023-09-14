@@ -4,6 +4,7 @@ import webpush from 'web-push'
 import { revalidatePath } from 'next/cache'
 import User from '../models/user.model'
 import { connectToDB } from '../mongoose'
+import { sendNotification } from '../sendNotification'
 
 export async function makeAdmin(username: string, admin: boolean) {
   try {
@@ -34,20 +35,6 @@ export async function crownUser(
   } catch (err: any) {
     console.error(err)
   }
-}
-
-const vapidKeys = {
-  publicKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || '',
-  privateKey: process.env.VAPID_PRIVATE_KEY  || '',
-}
-
-const sendNotification = async (subscription: any, dataToSend: any) => {
-  webpush.setVapidDetails(
-    'mailto:timvan0118@gmail.com',
-    vapidKeys.publicKey,
-    vapidKeys.privateKey
-  )
-  webpush.sendNotification(subscription, JSON.stringify(dataToSend))
 }
 
 export async function sendGlobalMessage(title: string, body: string, options?: any ) {

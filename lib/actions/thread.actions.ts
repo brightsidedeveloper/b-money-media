@@ -6,6 +6,7 @@ import { connectToDB } from '../mongoose'
 
 import User from '../models/user.model'
 import Thread from '../models/thread.model'
+import { sendNotification } from '../sendNotification'
 
 // import { Knock } from '@knocklabs/node'
 
@@ -216,13 +217,19 @@ export async function addCommentToThread(
     // Save the updated original thread to the database
     await originalThread.save()
 
-    // const sender = await User.findById(userId)
-
-    // await knock.notify('new-comment', {
-    //   actor: sender.id,
-    //   recipients: [originalThread.author.id],
-    //   data: { variableKey: 'Preview data value' },
-    // })
+    const sender = await User.findById(userId)
+    if (originalThread.author.subscription && originalThread.author.id !== sender.id) {
+      await sendNotification(originalThread.author.subscription, {
+        title: `${sender.name} replied to your thread`,
+        options: {
+          body: commentText,
+          tag: originalThread._id,
+          data: {
+            url: `/${originalThread._id}`,
+          },
+        },
+      })
+    }
 
     revalidatePath(path)
   } catch (err) {

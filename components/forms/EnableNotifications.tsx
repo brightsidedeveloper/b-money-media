@@ -43,7 +43,6 @@ export default function EnableNotifications() {
       const { error, user } = await res.json()
       console.log(user)
       if (error) return toast.error(error)
-      toast.success("Successfully Subscribed")
       reg.showNotification("Successfully Subscribed", {
         body: "You will now recieve notifications!",
       })
