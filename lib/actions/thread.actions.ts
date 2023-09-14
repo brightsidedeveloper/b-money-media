@@ -1,12 +1,12 @@
-'use server'
+"use server"
 
-import { revalidatePath } from 'next/cache'
+import { revalidatePath } from "next/cache"
 
-import { connectToDB } from '../mongoose'
+import { connectToDB } from "../mongoose"
 
-import User from '../models/user.model'
-import Thread from '../models/thread.model'
-import { sendNotification } from '../sendNotification'
+import User from "../models/user.model"
+import Thread from "../models/thread.model"
+import { sendNotification } from "../sendNotification"
 
 // import { Knock } from '@knocklabs/node'
 
@@ -20,20 +20,20 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 
   // Create a query to fetch the posts that have no parent (top-level threads) (a thread that is not a comment/reply).
   const postsQuery = Thread.find({ parentId: { $in: [null, undefined] } })
-    .sort({ createdAt: 'desc' })
+    .sort({ createdAt: "desc" })
     .skip(skipAmount)
     .limit(pageSize)
     .populate({
-      path: 'author',
+      path: "author",
       model: User,
     })
 
     .populate({
-      path: 'children', // Populate the children field
+      path: "children", // Populate the children field
       populate: {
-        path: 'author', // Populate the author field within children
+        path: "author", // Populate the author field within children
         model: User,
-        select: '_id name username abilities verified parentId image', // Select only _id and username fields of the author
+        select: "_id name username abilities verified parentId image", // Select only _id and username fields of the author
       },
     })
 
@@ -67,10 +67,10 @@ export async function createThread({ text, author, path }: Params) {
     const userAts = await Promise.all(
       ats.map(async (at: string) => {
         const user = await User.findOne({ username: at.slice(1) }).select(
-          '_id id username subscription'
+          "_id id username subscription"
         )
 
-        if (!user) return ''
+        if (!user) return ""
         atedUsers.push(user)
         return JSON.stringify(user)
       })
@@ -79,13 +79,15 @@ export async function createThread({ text, author, path }: Params) {
     const createdThread = await Thread.create({
       text,
       author,
-      ats: userAts.filter(data => data !== ''),
+      ats: userAts.filter(data => data !== ""),
     })
 
     atedUsers.forEach(async (user: any) => {
       if (user.subscription && user.id !== sender.id) {
         await sendNotification(user.subscription, {
-          title: `@${sender.username} ${text.toLowerCase().includes('#clown') ? 'clowned' : 'mentioned'} you`,
+          title: `@${sender.username} ${
+            text.toLowerCase().includes("#clown") ? "clowned" : "mentioned"
+          } you`,
           options: {
             body: text,
             tag: createdThread._id,
@@ -96,8 +98,6 @@ export async function createThread({ text, author, path }: Params) {
         })
       }
     })
-
-
 
     revalidatePath(path)
   } catch (error: any) {
@@ -122,10 +122,10 @@ export async function deleteThread(id: string, path: string): Promise<void> {
     connectToDB()
 
     // Find the thread to be deleted (the main thread)
-    const mainThread = await Thread.findById(id).populate('author')
+    const mainThread = await Thread.findById(id).populate("author")
 
     if (!mainThread) {
-      throw new Error('Thread not found')
+      throw new Error("Thread not found")
     }
 
     // Fetch all child threads and their descendants recursively
@@ -166,26 +166,26 @@ export async function fetchThreadById(threadId: string) {
   try {
     const thread = await Thread.findById(threadId)
       .populate({
-        path: 'author',
+        path: "author",
         model: User,
-        select: '_id id username abilities verified name image',
+        select: "_id id username abilities verified name image",
       }) // Populate the author field with _id and username
 
       .populate({
-        path: 'children', // Populate the children field
+        path: "children", // Populate the children field
         populate: [
           {
-            path: 'author', // Populate the author field within children
+            path: "author", // Populate the author field within children
             model: User,
-            select: '_id id name username abilities verified parentId image', // Select only _id and username fields of the author
+            select: "_id id name username abilities verified parentId image", // Select only _id and username fields of the author
           },
           {
-            path: 'children', // Populate the children field within children
+            path: "children", // Populate the children field within children
             model: Thread, // The model of the nested children (assuming it's the same "Thread" model)
             populate: {
-              path: 'author', // Populate the author field within nested children
+              path: "author", // Populate the author field within nested children
               model: User,
-              select: '_id id name username abilities verified parentId image', // Select only _id and username fields of the author
+              select: "_id id name username abilities verified parentId image", // Select only _id and username fields of the author
             },
           },
         ],
@@ -194,8 +194,8 @@ export async function fetchThreadById(threadId: string) {
 
     return thread
   } catch (err) {
-    console.error('Error while fetching thread:', err)
-    throw new Error('Unable to fetch thread')
+    console.error("Error while fetching thread:", err)
+    throw new Error("Unable to fetch thread")
   }
 }
 
@@ -210,12 +210,12 @@ export async function addCommentToThread(
   try {
     // Find the original thread by its ID
     const originalThread = await Thread.findById(threadId).populate({
-      path: 'author',
+      path: "author",
       model: User,
     })
 
     if (!originalThread) {
-      throw new Error('Thread not found')
+      throw new Error("Thread not found")
     }
 
     // Create the new comment thread
@@ -235,14 +235,17 @@ export async function addCommentToThread(
     await originalThread.save()
 
     const sender = await User.findById(userId)
-    if (originalThread.author.subscription && originalThread.author.id !== sender.id) {
+    if (
+      originalThread.author.subscription &&
+      originalThread.author.id !== sender.id
+    ) {
       await sendNotification(originalThread.author.subscription, {
         title: `@${sender.username} replied to your thread`,
         options: {
           body: commentText,
           tag: originalThread._id,
           data: {
-            url: `/${originalThread._id}`,
+            url: `/thread/${originalThread._id}`,
           },
         },
       })
@@ -250,8 +253,8 @@ export async function addCommentToThread(
 
     revalidatePath(path)
   } catch (err) {
-    console.error('Error while adding comment:', err)
-    throw new Error('Unable to add comment')
+    console.error("Error while adding comment:", err)
+    throw new Error("Unable to add comment")
   }
 }
 
@@ -273,15 +276,26 @@ export async function likePost(
       },
       { upsert: true }
     ).populate({
-      path: 'author',
+      path: "author",
       model: User,
     })
-
-
 
     if (clown) {
       // Find @ed users
       const userLiked = await User.findOne({ id: userId })
+
+      if (originalThread.author.subscription) {
+        await sendNotification(originalThread.author.subscription, {
+          title: `@${userLiked.username} left a clown on your post`,
+          options: {
+            body: originalThread.text,
+            tag: originalThread._id,
+            data: {
+              url: `/thread/${originalThread._id}`,
+            },
+          },
+        })
+      }
 
       await Promise.all(
         originalThread.ats?.forEach(async (at: string) => {
@@ -292,31 +306,37 @@ export async function likePost(
             { $push: { clownCount: 1 } },
             { upsert: true }
           )
-          if (dbUser.subscription && originalThread.author?.id !== userLiked.id) {
+          if (
+            dbUser.subscription &&
+            originalThread.author?.id !== userLiked.id
+          ) {
             await sendNotification(dbUser.subscription, {
               title: `@${userLiked.username} clown you`,
               options: {
                 body: `on @${originalThread.author?.username}'s post`,
                 tag: originalThread._id,
                 data: {
-                  url: `/${originalThread._id}`,
+                  url: `/thread/${originalThread._id}`,
                 },
               },
             })
-          } 
+          }
         }) || []
       )
     } else {
-    const userLiked = await User.findById(userId)
+      const userLiked = await User.findById(userId)
 
-      if (userLiked.subscription && originalThread.author?.id !== userLiked.id) {
+      if (
+        userLiked.subscription &&
+        originalThread.author?.id !== userLiked.id
+      ) {
         await sendNotification(originalThread.author?.subscription, {
           title: `@${userLiked.username} liked your post`,
           options: {
             body: originalThread.text,
             tag: originalThread._id,
             data: {
-              url: `/${originalThread._id}`,
+              url: `/thread/${originalThread._id}`,
             },
           },
         })
@@ -325,7 +345,7 @@ export async function likePost(
 
     revalidatePath(path)
   } catch (err) {
-    console.error('Error while liking post:', err)
-    throw new Error('Unable to like post')
+    console.error("Error while liking post:", err)
+    throw new Error("Unable to like post")
   }
 }
