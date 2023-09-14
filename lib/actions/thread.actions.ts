@@ -262,9 +262,9 @@ export async function likePost(
 
 
 
-    const userLiked = await User.findOne({ id: userId})
     if (clown) {
       // Find @ed users
+      const userLiked = await User.findOne({ id: userId })
 
       await Promise.all(
         originalThread.ats?.forEach(async (at: string) => {
@@ -275,11 +275,11 @@ export async function likePost(
             { $push: { clownCount: 1 } },
             { upsert: true }
           )
-          if (dbUser.subscription && originalThread.author.id !== dbUser.id) {
+          if (dbUser.subscription && originalThread.author?.id !== userLiked.id) {
             await sendNotification(dbUser.subscription, {
               title: `${userLiked.name} clown you`,
               options: {
-                body: `Clowned on ${originalThread.author.name}'s post`,
+                body: `Clowned on ${originalThread.author?.name}'s post`,
                 tag: originalThread._id,
                 data: {
                   url: `/${originalThread._id}`,
@@ -290,8 +290,10 @@ export async function likePost(
         }) || []
       )
     } else {
-      if (userLiked.subscription && originalThread.author.id !== userLiked.id) {
-        await sendNotification(originalThread.author.subscription, {
+    const userLiked = await User.findById(userId)
+
+      if (userLiked.subscription && originalThread.author?.id !== userLiked.id) {
+        await sendNotification(originalThread.author?.subscription, {
           title: `${userLiked.name} liked your post`,
           options: {
             body: originalThread.text,
