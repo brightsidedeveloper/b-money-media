@@ -225,6 +225,8 @@ export async function followUser(userId: string, followUserId: string) {
       })
     }
 
+    revalidatePath(`/profile/${followedUser.id}`)
+
     return {
       username: followedUser.username,
       subscribers: followedUser.subscribers,
