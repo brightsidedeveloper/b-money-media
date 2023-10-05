@@ -1,6 +1,6 @@
-'use client'
-import { useEffect } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+"use client"
+import { useEffect } from "react"
+import { useRouter, usePathname } from "next/navigation"
 
 export default function SwipeProvider() {
   const pathname = usePathname()
@@ -27,44 +27,21 @@ export default function SwipeProvider() {
 
       // Swipe Left
       if (touchEndX < touchStartX) {
-        switch (pathname) {
-          case '/':
-            return router.push('/search')
-          case '/search':
-            return router.push('/activity')
-          case '/activity':
-            return router.push('/wip')
-          case '/wip':
-            return router.push('/profile')
-          default:
-        }
+        //TODO Fix this :)
       }
 
       // Swipe Right
       else if (touchEndX > touchStartX) {
-        switch (pathname) {
-          case '/profile':
-            return router.push('/wip')
-          case '/wip':
-            return router.push('/activity')
-          case '/activity':
-            return router.push('/search')
-          case '/search':
-            return router.push('/')
-          default:
-            if (pathname.includes('/thread/')) {
-              return router.back()
-            }
-        }
+        router.back()
       }
     }
 
-    document.addEventListener('touchstart', touchStart)
-    document.addEventListener('touchend', touchEnd)
+    document.addEventListener("touchstart", touchStart)
+    document.addEventListener("touchend", touchEnd)
 
     return () => {
-      document.removeEventListener('touchstart', touchStart)
-      document.removeEventListener('touchend', touchEnd)
+      document.removeEventListener("touchstart", touchStart)
+      document.removeEventListener("touchend", touchEnd)
     }
   }, [pathname, router])
   return null
