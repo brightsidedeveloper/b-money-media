@@ -39,58 +39,52 @@ function ProfileHeader({
       {isAdmin && <Abilities username={username} path={path} />}
 
       <div className='flex items-center flex-col gap-4'>
-        <div className='flex items-center items w-full gap-3'>
-          <div className='relative h-20 w-20 object-cover'>
-            {abilities?.includes('party-hat') ? (
-              <Image
-                src='/assets/party-hat.png'
-                alt='crown'
-                width={38}
-                height={38}
-                className='rotate-[20deg] absolute -top-8 right-0 z-10'
-              />
-            ) : (
-              abilities?.includes('crown') && (
+        <div className='flex items-center jusitify-between w-full'>
+          <div className='flex items-center grow  gap-3'>
+            <div className='relative h-20 w-20 object-cover'>
+              {abilities?.includes('party-hat') ? (
                 <Image
-                  src='/assets/crown.png'
+                  src='/assets/party-hat.png'
                   alt='crown'
-                  width={abilities?.includes('mega-crown') ? 72 : 38}
-                  height={abilities?.includes('mega-crown') ? 72 : 38}
-                  className={cn(
-                    'rotate-[20deg] absolute -top-4 right-1 z-10',
-                    abilities?.includes('mega-crown') && '-top-10 -right-3'
-                  )}
+                  width={38}
+                  height={38}
+                  className='rotate-[20deg] absolute -top-8 right-0 z-10'
                 />
-              )
-            )}
-            <Image
-              src={abilities?.includes('clown') ? '/assets/clown.png' : imgUrl}
-              alt='logo'
-              fill
-              className='rounded-full object-cover shadow-2xl'
-            />
-          </div>
-
-          <div className='flex-1'>
-            <h2
-              className={`text-left text-heading3-bold text-light-1 ${
-                abilities?.includes('gold-name') && 'text-yellow-400'
-              }`}
-            >
-              {name}
-            </h2>
-            <p className='text-base-medium text-gray-1'>@{username}</p>
-          </div>
-        </div>
-        <div className='flex gap-8'>
-          {clownCount > 0 && (
-            <div className='flex flex-col items-center justify-center'>
-              <p className='text-center text-base-medium text-gray-1'>Clowns</p>
-              <p className='text-center text-base-semibold text-light-1'>
-                {clownCount}
-              </p>
+              ) : (
+                abilities?.includes('crown') && (
+                  <Image
+                    src='/assets/crown.png'
+                    alt='crown'
+                    width={abilities?.includes('mega-crown') ? 72 : 38}
+                    height={abilities?.includes('mega-crown') ? 72 : 38}
+                    className={cn(
+                      'rotate-[20deg] absolute -top-4 right-1 z-10',
+                      abilities?.includes('mega-crown') && '-top-10 -right-3'
+                    )}
+                  />
+                )
+              )}
+              <Image
+                src={
+                  abilities?.includes('clown') ? '/assets/clown.png' : imgUrl
+                }
+                alt='logo'
+                fill
+                className='rounded-full object-cover shadow-2xl'
+              />
             </div>
-          )}
+
+            <div className='flex-1'>
+              <h2
+                className={`text-left text-heading3-bold text-light-1 ${
+                  abilities?.includes('gold-name') && 'text-yellow-400'
+                }`}
+              >
+                {name}
+              </h2>
+              <p className='text-base-medium text-gray-1'>@{username}</p>
+            </div>
+          </div>
           {accountId === authUserId && type !== 'Community' && (
             <Link href='/profile/edit'>
               <div className='flex cursor-pointer gap-3 rounded-lg bg-dark-3 px-4 py-2'>
@@ -105,6 +99,17 @@ function ProfileHeader({
               </div>
             </Link>
           )}
+        </div>
+        <div className='flex gap-8'>
+          {clownCount > 0 && (
+            <div className='flex flex-col items-center justify-center'>
+              <p className='text-center text-base-medium text-gray-1'>Clowns</p>
+              <p className='text-center text-base-semibold text-light-1'>
+                {clownCount}
+              </p>
+            </div>
+          )}
+
           <div className='flex flex-col items-center justify-center'>
             <p className='text-center text-base-medium text-gray-1'>
               Followers
