@@ -43,8 +43,9 @@ const userSchema = new mongoose.Schema({
   abilities: [String],
   clownCount: [Number],
   subscription: {
-    type: Object
-  }
+    type: Object,
+  },
+  subscribers: [String],
 })
 
 const User = mongoose.models?.User || mongoose.model('User', userSchema)

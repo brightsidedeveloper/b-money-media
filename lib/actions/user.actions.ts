@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache'
 import Thread from '../models/thread.model'
 import User from '../models/user.model'
 import { connectToDB } from '../mongoose'
+import { sendNotification } from '../sendNotification'
 
 export async function fetchUser(userId: string) {
   try {
@@ -185,5 +186,51 @@ export async function getActivity(userId: string) {
   } catch (error) {
     console.error('Error fetching replies: ', error)
     throw error
+  }
+}
+
+export async function followUser(userId: string, followUserId: string) {
+  try {
+    connectToDB()
+
+    if (userId === followUserId) return { error: 'You cannot follow yourself' }
+    if (!userId || !followUserId) return { error: 'Missing user id' }
+
+    const followedUser = await User.findOne({ id: userId })
+
+    if (!followedUser) return { error: 'User not found' }
+
+    if (followedUser.subscribers.includes(followUserId))
+      followedUser.subscribers = followedUser.subscribers.filter(
+        (id: string) => id !== followUserId
+      )
+    else followedUser.subscribers.push(followUserId)
+
+    await followedUser.save()
+
+    const followingUser = await User.findOne({ id: followUserId })
+
+    if (
+      followedUser.subscription &&
+      followedUser.subscribers.includes(followUserId)
+    ) {
+      await sendNotification(followedUser.subscription, {
+        title: `@${followingUser.username} followed you!`,
+        options: {
+          body: '',
+          data: {
+            url: `/profile/${followingUser.id}`,
+          },
+        },
+      })
+    }
+
+    return {
+      username: followedUser.username,
+      subscribers: followedUser.subscribers,
+    }
+  } catch (error: any) {
+    console.error('Error following user: ', error)
+    return { error: 'Backend Error' }
   }
 }

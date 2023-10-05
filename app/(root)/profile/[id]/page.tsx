@@ -31,6 +31,7 @@ async function Page({ params }: { params: { id: string } }) {
         crowned={userInfo.verified}
         path={`/profile/${params.id}`}
         clownCount={userInfo.clownCount?.length || 0}
+        subscribers={userInfo.subscribers || []}
       />
 
       <section className='mt-9 flex flex-col gap-10'>

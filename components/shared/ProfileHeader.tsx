@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Abilities from '../forms/Abilities'
 import { cn } from '@/lib/utils'
+import FollowButton from '../forms/FollowButton'
 
 interface Props {
   accountId: string
@@ -16,6 +17,7 @@ interface Props {
   isAdmin?: boolean
   path?: string
   clownCount: number
+  subscribers: string[]
 }
 
 function ProfileHeader({
@@ -30,6 +32,7 @@ function ProfileHeader({
   isAdmin,
   path,
   clownCount,
+  subscribers,
 }: Props) {
   return (
     <div className='flex w-full flex-col justify-start'>
@@ -101,6 +104,13 @@ function ProfileHeader({
                 <p className='text-light-2 max-sm:hidden'>Edit</p>
               </div>
             </Link>
+          )}
+          {accountId !== authUserId && (
+            <FollowButton
+              accountId={accountId}
+              authUserId={authUserId}
+              subscribers={subscribers}
+            />
           )}
         </div>
       </div>

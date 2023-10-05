@@ -1,12 +1,12 @@
-"use server"
+'use server'
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath } from 'next/cache'
 
-import { connectToDB } from "../mongoose"
+import { connectToDB } from '../mongoose'
 
-import User from "../models/user.model"
-import Thread from "../models/thread.model"
-import { sendNotification } from "../sendNotification"
+import User from '../models/user.model'
+import Thread from '../models/thread.model'
+import { sendNotification } from '../sendNotification'
 
 // import { Knock } from '@knocklabs/node'
 
@@ -20,20 +20,20 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 
   // Create a query to fetch the posts that have no parent (top-level threads) (a thread that is not a comment/reply).
   const postsQuery = Thread.find({ parentId: { $in: [null, undefined] } })
-    .sort({ createdAt: "desc" })
+    .sort({ createdAt: 'desc' })
     .skip(skipAmount)
     .limit(pageSize)
     .populate({
-      path: "author",
+      path: 'author',
       model: User,
     })
 
     .populate({
-      path: "children", // Populate the children field
+      path: 'children', // Populate the children field
       populate: {
-        path: "author", // Populate the author field within children
+        path: 'author', // Populate the author field within children
         model: User,
-        select: "_id name username abilities verified parentId image", // Select only _id and username fields of the author
+        select: '_id name username abilities verified parentId image', // Select only _id and username fields of the author
       },
     })
 
@@ -65,10 +65,10 @@ export async function createThread({ text, author, path }: Params) {
     const userAts = await Promise.all(
       ats.map(async (at: string) => {
         const user = await User.findOne({ username: at.slice(1) }).select(
-          "_id id username subscription"
+          '_id id username subscription'
         )
 
-        if (!user) return ""
+        if (!user) return ''
         atedUsers.push(user)
         return JSON.stringify(user)
       })
@@ -77,18 +77,33 @@ export async function createThread({ text, author, path }: Params) {
     const createdThread = await Thread.create({
       text,
       author,
-      ats: userAts.filter(data => data !== ""),
+      ats: userAts.filter(data => data !== ''),
     })
 
     const sender = await User.findByIdAndUpdate(author, {
       $push: { threads: createdThread._id },
     })
 
+    if (sender.subscribers) {
+      sender.subscribers.forEach(async (subscriberId: string) => {
+        const sub = await User.findOne({ id: subscriberId })
+        if (!sub) return
+        if (sub.subscription && sub.id !== sender.id) {
+          await sendNotification(sub.subscription, {
+            title: `@${sender.username} posted`,
+            options: {
+              body: text,
+            },
+          })
+        }
+      })
+    }
+
     atedUsers.forEach(async (user: any) => {
       if (user.subscription && user.id !== sender.id) {
         await sendNotification(user.subscription, {
           title: `@${sender.username} ${
-            text.toLowerCase().includes("#clown") ? "clowned" : "mentioned"
+            text.toLowerCase().includes('#clown') ? 'clowned' : 'mentioned'
           } you`,
           options: {
             body: text,
@@ -124,10 +139,10 @@ export async function deleteThread(id: string, path: string): Promise<void> {
     connectToDB()
 
     // Find the thread to be deleted (the main thread)
-    const mainThread = await Thread.findById(id).populate("author")
+    const mainThread = await Thread.findById(id).populate('author')
 
     if (!mainThread) {
-      throw new Error("Thread not found")
+      throw new Error('Thread not found')
     }
 
     // Fetch all child threads and their descendants recursively
@@ -168,26 +183,26 @@ export async function fetchThreadById(threadId: string) {
   try {
     const thread = await Thread.findById(threadId)
       .populate({
-        path: "author",
+        path: 'author',
         model: User,
-        select: "_id id username abilities verified name image",
+        select: '_id id username abilities verified name image',
       }) // Populate the author field with _id and username
 
       .populate({
-        path: "children", // Populate the children field
+        path: 'children', // Populate the children field
         populate: [
           {
-            path: "author", // Populate the author field within children
+            path: 'author', // Populate the author field within children
             model: User,
-            select: "_id id name username abilities verified parentId image", // Select only _id and username fields of the author
+            select: '_id id name username abilities verified parentId image', // Select only _id and username fields of the author
           },
           {
-            path: "children", // Populate the children field within children
+            path: 'children', // Populate the children field within children
             model: Thread, // The model of the nested children (assuming it's the same "Thread" model)
             populate: {
-              path: "author", // Populate the author field within nested children
+              path: 'author', // Populate the author field within nested children
               model: User,
-              select: "_id id name username abilities verified parentId image", // Select only _id and username fields of the author
+              select: '_id id name username abilities verified parentId image', // Select only _id and username fields of the author
             },
           },
         ],
@@ -196,8 +211,8 @@ export async function fetchThreadById(threadId: string) {
 
     return thread
   } catch (err) {
-    console.error("Error while fetching thread:", err)
-    throw new Error("Unable to fetch thread")
+    console.error('Error while fetching thread:', err)
+    throw new Error('Unable to fetch thread')
   }
 }
 
@@ -212,12 +227,12 @@ export async function addCommentToThread(
   try {
     // Find the original thread by its ID
     const originalThread = await Thread.findById(threadId).populate({
-      path: "author",
+      path: 'author',
       model: User,
     })
 
     if (!originalThread) {
-      throw new Error("Thread not found")
+      throw new Error('Thread not found')
     }
 
     // Create the new comment thread
@@ -255,8 +270,8 @@ export async function addCommentToThread(
 
     revalidatePath(path)
   } catch (err) {
-    console.error("Error while adding comment:", err)
-    throw new Error("Unable to add comment")
+    console.error('Error while adding comment:', err)
+    throw new Error('Unable to add comment')
   }
 }
 
@@ -278,7 +293,7 @@ export async function likePost(
       },
       { upsert: true }
     ).populate({
-      path: "author",
+      path: 'author',
       model: User,
     })
 
@@ -347,7 +362,7 @@ export async function likePost(
 
     revalidatePath(path)
   } catch (err) {
-    console.error("Error while liking post:", err)
-    throw new Error("Unable to like post")
+    console.error('Error while liking post:', err)
+    throw new Error('Unable to like post')
   }
 }
