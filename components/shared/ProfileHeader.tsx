@@ -38,8 +38,8 @@ function ProfileHeader({
     <div className='flex w-full flex-col justify-start'>
       {isAdmin && <Abilities username={username} path={path} />}
 
-      <div className='flex items-center justify-between'>
-        <div className='flex items-center gap-3'>
+      <div className='flex items-center flex-col gap-4'>
+        <div className='flex items-center items w-full gap-3'>
           <div className='relative h-20 w-20 object-cover'>
             {abilities?.includes('party-hat') ? (
               <Image
@@ -82,7 +82,7 @@ function ProfileHeader({
             <p className='text-base-medium text-gray-1'>@{username}</p>
           </div>
         </div>
-        <div className='flex gap-2'>
+        <div className='flex gap-8'>
           {clownCount > 0 && (
             <div className='flex flex-col items-center justify-center'>
               <p className='text-center text-base-medium text-gray-1'>Clowns</p>
@@ -105,6 +105,14 @@ function ProfileHeader({
               </div>
             </Link>
           )}
+          <div className='flex flex-col items-center justify-center'>
+            <p className='text-center text-base-medium text-gray-1'>
+              Followers
+            </p>
+            <p className='text-center text-base-semibold text-light-1'>
+              {subscribers.length}
+            </p>
+          </div>
           {accountId !== authUserId && (
             <FollowButton
               accountId={accountId}
